@@ -307,7 +307,8 @@ On first run, the app auto-creates a default administrator so you can log in imm
 ## 👨‍💻 Author
 
 **Mina Ashraf** — [Eng-MinaAshraf](https://github.com/Eng-MinaAshraf)
-
+**Mahmoud Abdelghfar** — [MahmoudAbdelghfar](https://github.com/MahmoudAbdelghfar)
+**Abdullah Ali** — [AbdullahAli](https://github.com/AbdullahAli)
 Developed as part of **Digital Egypt Pioneers Initiative — Round 4**, under the mentorship of **Eng. Islam Helmy**.
 
 </div>
