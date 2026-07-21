@@ -1,0 +1,30 @@
+@model RealEstateProject.Models.Rating
+
+@{
+    ViewData["Title"] = "Rating Details";
+}
+
+<div class="aqx-page-header">
+    <div>
+        <h1>Rating Details</h1>
+        <p class="aqx-subtitle">Rating #@Model.RatingId</p>
+    </div>
+</div>
+
+<div class="aqx-detail-card">
+    <dl class="row">
+        <dt>@Html.DisplayNameFor(model => model.Giver)</dt>
+        <dd>@Html.DisplayFor(model => model.Giver.UserId)</dd>
+        <dt>@Html.DisplayNameFor(model => model.Receiver)</dt>
+        <dd>@Html.DisplayFor(model => model.Receiver.UserId)</dd>
+        <dt>@Html.DisplayNameFor(model => model.Score)</dt>
+        <dd>@Html.DisplayFor(model => model.Score)</dd>
+        <dt>@Html.DisplayNameFor(model => model.Comment)</dt>
+        <dd>@Html.DisplayFor(model => model.Comment)</dd>
+    </dl>
+
+    <div class="aqx-actions-bar">
+        <a asp-action="Edit" asp-route-id="@Model?.RatingId" class="btn btn-primary">Edit</a>
+        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    </div>
+</div>

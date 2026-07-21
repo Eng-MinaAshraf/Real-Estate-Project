@@ -1,0 +1,28 @@
+@model RealEstateProject.Models.ServicePartner
+
+@{
+    ViewData["Title"] = "Service Partner Details";
+}
+
+<div class="aqx-page-header">
+    <div>
+        <h1>Service Partner Details</h1>
+        <p class="aqx-subtitle">Partner #@Model.PartnerId</p>
+    </div>
+</div>
+
+<div class="aqx-detail-card">
+    <dl class="row">
+        <dt>@Html.DisplayNameFor(model => model.CompanyName)</dt>
+        <dd>@Html.DisplayFor(model => model.CompanyName)</dd>
+        <dt>@Html.DisplayNameFor(model => model.ServiceCategory)</dt>
+        <dd>@Html.DisplayFor(model => model.ServiceCategory)</dd>
+        <dt>@Html.DisplayNameFor(model => model.CommissionRate)</dt>
+        <dd>@Html.DisplayFor(model => model.CommissionRate)</dd>
+    </dl>
+
+    <div class="aqx-actions-bar">
+        <a asp-action="Edit" asp-route-id="@Model?.PartnerId" class="btn btn-primary">Edit</a>
+        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    </div>
+</div>

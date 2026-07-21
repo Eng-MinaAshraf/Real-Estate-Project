@@ -1,0 +1,30 @@
+@model RealEstateProject.Models.ServiceRequest
+
+@{
+    ViewData["Title"] = "Service Request Details";
+}
+
+<div class="aqx-page-header">
+    <div>
+        <h1>Service Request Details</h1>
+        <p class="aqx-subtitle">Request #@Model.RequestId</p>
+    </div>
+</div>
+
+<div class="aqx-detail-card">
+    <dl class="row">
+        <dt>@Html.DisplayNameFor(model => model.Tenant)</dt>
+        <dd>@Html.DisplayFor(model => model.Tenant.TenantId)</dd>
+        <dt>@Html.DisplayNameFor(model => model.ServicePartner)</dt>
+        <dd>@Html.DisplayFor(model => model.ServicePartner.PartnerId)</dd>
+        <dt>@Html.DisplayNameFor(model => model.RequestDate)</dt>
+        <dd>@Html.DisplayFor(model => model.RequestDate)</dd>
+        <dt>@Html.DisplayNameFor(model => model.Status)</dt>
+        <dd>@Html.DisplayFor(model => model.Status)</dd>
+    </dl>
+
+    <div class="aqx-actions-bar">
+        <a asp-action="Edit" asp-route-id="@Model?.RequestId" class="btn btn-primary">Edit</a>
+        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    </div>
+</div>

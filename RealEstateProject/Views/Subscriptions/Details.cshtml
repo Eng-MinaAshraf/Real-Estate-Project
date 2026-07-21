@@ -1,0 +1,36 @@
+@model RealEstateProject.Models.Subscription
+
+@{
+    ViewData["Title"] = "Subscription Details";
+}
+
+<div class="aqx-page-header">
+    <div>
+        <h1>Subscription Details</h1>
+        <p class="aqx-subtitle">Subscription #@Model.SubscriptionId</p>
+    </div>
+</div>
+
+<div class="aqx-detail-card">
+    <dl class="row">
+        <dt>@Html.DisplayNameFor(model => model.Owner)</dt>
+        <dd>@Html.DisplayFor(model => model.Owner.OwnerId)</dd>
+        <dt>@Html.DisplayNameFor(model => model.SubscriptionPlan)</dt>
+        <dd>@Html.DisplayFor(model => model.SubscriptionPlan.PlanId)</dd>
+        <dt>@Html.DisplayNameFor(model => model.StartDate)</dt>
+        <dd>@Html.DisplayFor(model => model.StartDate)</dd>
+        <dt>@Html.DisplayNameFor(model => model.EndDate)</dt>
+        <dd>@Html.DisplayFor(model => model.EndDate)</dd>
+        <dt>@Html.DisplayNameFor(model => model.BillingCycle)</dt>
+        <dd>@Html.DisplayFor(model => model.BillingCycle)</dd>
+        <dt>@Html.DisplayNameFor(model => model.Discount)</dt>
+        <dd>@Html.DisplayFor(model => model.Discount)</dd>
+        <dt>@Html.DisplayNameFor(model => model.PaymentStatus)</dt>
+        <dd>@Html.DisplayFor(model => model.PaymentStatus)</dd>
+    </dl>
+
+    <div class="aqx-actions-bar">
+        <a asp-action="Edit" asp-route-id="@Model?.SubscriptionId" class="btn btn-primary">Edit</a>
+        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    </div>
+</div>

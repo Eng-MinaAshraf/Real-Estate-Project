@@ -1,0 +1,55 @@
+@model IEnumerable<RealEstateProject.Models.ServicePartner>
+
+@{
+    ViewData["Title"] = "Service Partners";
+}
+
+<div class="aqx-page-header">
+    <div>
+        <h1>Service Partners</h1>
+        <p class="aqx-subtitle">@Model.Count() partner(s)</p>
+    </div>
+    <a asp-action="Create" class="btn btn-primary">
+        <span class="material-symbols-outlined text-base">add</span> New Partner
+    </a>
+</div>
+
+@if (Model.Any())
+{
+    <div class="overflow-x-auto rounded-2xl border border-white/5">
+        <table class="table w-full">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.CompanyName)</th>
+                    <th>@Html.DisplayNameFor(model => model.ServiceCategory)</th>
+                    <th>@Html.DisplayNameFor(model => model.CommissionRate)</th>
+                    <th class="text-right">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.CompanyName)</td>
+                        <td>@Html.DisplayFor(modelItem => item.ServiceCategory)</td>
+                        <td>@Html.DisplayFor(modelItem => item.CommissionRate)</td>
+                        <td>
+                            <div class="aqx-actions justify-end">
+                                <a asp-action="Details" asp-route-id="@item.PartnerId" class="aqx-btn-ghost">View</a>
+                                <a asp-action="Edit" asp-route-id="@item.PartnerId" class="aqx-btn-ghost">Edit</a>
+                                <a asp-action="Delete" asp-route-id="@item.PartnerId" class="aqx-btn-ghost aqx-danger">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <div class="aqx-empty">
+        <p>No service partners found.</p>
+        <a asp-action="Create" class="btn btn-primary">New Partner</a>
+    </div>
+}

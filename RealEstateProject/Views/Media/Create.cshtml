@@ -1,0 +1,42 @@
+@model RealEstateProject.Models.Media
+
+@{
+    ViewData["Title"] = "New Media";
+}
+
+<div class="aqx-page-header">
+    <div>
+        <h1>New Media</h1>
+        <p class="aqx-subtitle">Add a media item</p>
+    </div>
+</div>
+
+<div class="aqx-detail-card">
+    <form asp-action="Create">
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-4"></div>
+
+        <div class="form-group mb-4">
+            <label asp-for="PropId" class="control-label block"></label>
+            <select asp-for="PropId" class="form-control w-full" asp-items="ViewBag.PropId"></select>
+        </div>
+        <div class="form-group mb-4">
+            <label asp-for="MediaType" class="control-label block"></label>
+            <input asp-for="MediaType" class="form-control w-full" />
+            <span asp-validation-for="MediaType" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-4">
+            <label asp-for="MediaUrl" class="control-label block"></label>
+            <input asp-for="MediaUrl" class="form-control w-full" />
+            <span asp-validation-for="MediaUrl" class="text-danger"></span>
+        </div>
+
+        <div class="aqx-actions-bar">
+            <button type="submit" class="btn btn-primary">Create</button>
+            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

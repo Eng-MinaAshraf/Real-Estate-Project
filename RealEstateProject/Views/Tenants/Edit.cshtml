@@ -1,0 +1,44 @@
+@model RealEstateProject.Models.Tenant
+
+@{
+    ViewData["Title"] = "Edit Tenant";
+}
+
+<div class="aqx-page-header">
+    <div>
+        <h1>Edit Tenant</h1>
+        <p class="aqx-subtitle">Tenant #@Model.TenantId</p>
+    </div>
+</div>
+
+<div class="aqx-detail-card">
+    <form asp-action="Edit">
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-4"></div>
+        <input type="hidden" asp-for="TenantId" />
+
+        <div class="form-group mb-4">
+            <label asp-for="SmokingStatus" class="control-label block"></label>
+            <input asp-for="SmokingStatus" class="form-control w-full" />
+            <span asp-validation-for="SmokingStatus" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-4">
+            <label asp-for="Personality" class="control-label block"></label>
+            <input asp-for="Personality" class="form-control w-full" />
+            <span asp-validation-for="Personality" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-4">
+            <label asp-for="Occupation" class="control-label block"></label>
+            <input asp-for="Occupation" class="form-control w-full" />
+            <span asp-validation-for="Occupation" class="text-danger"></span>
+        </div>
+
+        <div class="aqx-actions-bar">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

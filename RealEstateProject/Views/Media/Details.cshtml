@@ -1,0 +1,28 @@
+@model RealEstateProject.Models.Media
+
+@{
+    ViewData["Title"] = "Media Details";
+}
+
+<div class="aqx-page-header">
+    <div>
+        <h1>Media Details</h1>
+        <p class="aqx-subtitle">Media #@Model.MediaId</p>
+    </div>
+</div>
+
+<div class="aqx-detail-card">
+    <dl class="row">
+        <dt>@Html.DisplayNameFor(model => model.Property)</dt>
+        <dd>@Html.DisplayFor(model => model.Property.PropId)</dd>
+        <dt>@Html.DisplayNameFor(model => model.MediaType)</dt>
+        <dd>@Html.DisplayFor(model => model.MediaType)</dd>
+        <dt>@Html.DisplayNameFor(model => model.MediaUrl)</dt>
+        <dd>@Html.DisplayFor(model => model.MediaUrl)</dd>
+    </dl>
+
+    <div class="aqx-actions-bar">
+        <a asp-action="Edit" asp-route-id="@Model?.MediaId" class="btn btn-primary">Edit</a>
+        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    </div>
+</div>

@@ -1,0 +1,91 @@
+﻿@{
+    ViewData["Title"] = "Subscribe";
+    var plan = ViewBag.Plan as RealEstateProject.Models.SubscriptionPlan;
+}
+
+<div class="aqx-checkout-wrapper">
+    <div class="aqx-checkout-summary">
+        <h2 class="aqx-checkout-plan-name">@plan.PlanName Plan</h2>
+        <p class="aqx-subtitle">Review your plan before checkout</p>
+
+        <ul class="aqx-plan-features aqx-checkout-features">
+            <li><span class="aqx-check">✓</span> @(plan.MaxUnits >= 999999 ? "Unlimited units" : $"Up to {plan.MaxUnits} units")</li>
+            <li><span class="aqx-check">✓</span> @(plan.MaxMediaCount >= 999999 ? "Unlimited photos per unit" : $"{plan.MaxMediaCount} photos per unit")</li>
+            <li><span class="aqx-check">✓</span> @plan.AllowedUnitTypes</li>
+        </ul>
+
+        <div class="aqx-checkout-price-row" id="priceDisplay">
+            <span class="aqx-checkout-price">@plan.MonthlyPrice?.ToString("N0")</span>
+            <span class="aqx-currency">EGP / month</span>
+        </div>
+    </div>
+
+    <div class="aqx-checkout-form">
+        <form asp-action="Create" method="post">
+            <input type="hidden" name="planId" value="@plan.PlanId" />
+
+            <label class="control-label">Billing Cycle</label>
+            <div class="aqx-billing-options">
+                <label class="aqx-billing-option aqx-billing-selected">
+                    <input type="radio" name="billingCycle" value="Monthly" checked onclick="updatePrice(false)" />
+                    <div>
+                        <strong>Monthly</strong>
+                        <span>@plan.MonthlyPrice?.ToString("N0") EGP / mo</span>
+                    </div>
+                </label>
+                <label class="aqx-billing-option">
+                    <input type="radio" name="billingCycle" value="Annual" onclick="updatePrice(true)" />
+                    <div>
+                        <strong>Annual</strong>
+                        <span>@((plan.MonthlyPrice * 12 * 0.8m)?.ToString("N0")) EGP / yr <em class="aqx-save-tag">save 20%</em></span>
+                    </div>
+                </label>
+            </div>
+
+            <hr class="aqx-checkout-divider" />
+
+            <div class="form-group">
+                <label class="control-label">Cardholder Name</label>
+                <input type="text" name="cardName" class="form-control" placeholder="Name on card" required />
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Card Number</label>
+                <input type="text" name="cardNumber" class="form-control" placeholder="1234 5678 9012 3456" maxlength="19" required />
+            </div>
+
+            <div class="aqx-form-row">
+                <div class="form-group">
+                    <label class="control-label">Expiry</label>
+                    <input type="text" name="expiry" class="form-control" placeholder="MM/YY" maxlength="5" required />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">CVV</label>
+                    <input type="text" name="cvv" class="form-control" placeholder="123" maxlength="3" required />
+                </div>
+            </div>
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <button type="submit" class="btn btn-primary aqx-auth-submit">Confirm & Pay</button>
+            <p class="aqx-checkout-note">This is a demo checkout. No real payment will be processed.</p>
+        </form>
+    </div>
+</div>
+
+<script>
+    function updatePrice(isAnnual) {
+        document.querySelectorAll('.aqx-billing-option').forEach(el => el.classList.remove('aqx-billing-selected'));
+        event.currentTarget.classList.add('aqx-billing-selected');
+
+        const monthly = @plan.MonthlyPrice;
+        const annual = (monthly * 12 * 0.8).toFixed(0);
+        const priceEl = document.getElementById('priceDisplay');
+
+        if (isAnnual) {
+            priceEl.innerHTML = `<span class="aqx-checkout-price">${Number(annual).toLocaleString()}</span><span class="aqx-currency">EGP / year</span>`;
+        } else {
+            priceEl.innerHTML = `<span class="aqx-checkout-price">${Number(monthly).toLocaleString()}</span><span class="aqx-currency">EGP / month</span>`;
+        }
+    }
+</script>

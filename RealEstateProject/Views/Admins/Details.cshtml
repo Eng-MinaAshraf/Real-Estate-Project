@@ -1,0 +1,24 @@
+@model RealEstateProject.Models.Admin
+
+@{
+    ViewData["Title"] = "Admin Details";
+}
+
+<div class="aqx-page-header">
+    <div>
+        <h1>Admin Details</h1>
+        <p class="aqx-subtitle">Admin #@Model.AdminId</p>
+    </div>
+</div>
+
+<div class="aqx-detail-card">
+    <dl class="row">
+        <dt>@Html.DisplayNameFor(model => model.User)</dt>
+        <dd>@Html.DisplayFor(model => model.User.UserId)</dd>
+    </dl>
+
+    <div class="aqx-actions-bar">
+        <a asp-action="Edit" asp-route-id="@Model?.AdminId" class="btn btn-primary">Edit</a>
+        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    </div>
+</div>

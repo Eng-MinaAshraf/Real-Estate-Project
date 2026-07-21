@@ -1,0 +1,92 @@
+@model RealEstateProject.Models.Property
+@{
+    ViewData["Title"] = "List a New Property";
+}
+
+<div class="aqx-page-header">
+    <div>
+        <h1>List a New Property</h1>
+        <p class="aqx-subtitle">Add details and photos</p>
+    </div>
+</div>
+
+<div class="aqx-detail-card">
+    <form asp-action="Create" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-4"></div>
+
+        <div class="form-group mb-4">
+            <label asp-for="OwnerId" class="control-label block"></label>
+            <select asp-for="OwnerId" class="form-control w-full" asp-items="ViewBag.OwnerId"></select>
+        </div>
+
+        <div class="form-group mb-4">
+            <label asp-for="PropType" class="control-label block"></label>
+            <input asp-for="PropType" class="form-control w-full" placeholder="e.g. Apartment, Villa, Studio" />
+            <span asp-validation-for="PropType" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-4">
+            <label asp-for="Purpose" class="control-label block"></label>
+            <select asp-for="Purpose" class="form-control w-full">
+                <option value="">-- Select --</option>
+                <option value="Rent">Rent</option>
+                <option value="Sale">Sale</option>
+            </select>
+            <span asp-validation-for="Purpose" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-4">
+            <label asp-for="Price" class="control-label block"></label>
+            <input asp-for="Price" class="form-control w-full" placeholder="e.g. 8500" />
+            <span asp-validation-for="Price" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-4">
+            <label asp-for="Location" class="control-label block"></label>
+            <input asp-for="Location" class="form-control w-full" placeholder="e.g. Nasr City, Cairo" />
+            <span asp-validation-for="Location" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-4">
+            <label asp-for="Conditions" class="control-label block"></label>
+            <input asp-for="Conditions" class="form-control w-full" placeholder="e.g. Furnished, Semi-Finished" />
+            <span asp-validation-for="Conditions" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-4">
+            <label asp-for="PublishStatus" class="control-label block"></label>
+            <select asp-for="PublishStatus" class="form-control w-full">
+                <option value="">-- Select --</option>
+                <option value="Draft">Draft</option>
+                <option value="Published">Published</option>
+            </select>
+            <span asp-validation-for="PublishStatus" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-4">
+            <label asp-for="ListingStatus" class="control-label block"></label>
+            <select asp-for="ListingStatus" class="form-control w-full">
+                <option value="">-- Select --</option>
+                <option value="Available">Available</option>
+                <option value="Rented">Rented</option>
+                <option value="Sold">Sold</option>
+            </select>
+            <span asp-validation-for="ListingStatus" class="text-danger"></span>
+        </div>
+
+        <div class="form-group aqx-upload-group mb-4">
+            <label class="control-label block">Property Photos</label>
+            <input type="file" name="Photos" class="form-control w-full" multiple accept="image/*" />
+            <small class="aqx-hint">You can select multiple images at once</small>
+        </div>
+
+        <div class="aqx-actions-bar">
+            <button type="submit" class="btn btn-primary">Create Property</button>
+            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

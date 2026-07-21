@@ -1,0 +1,76 @@
+@page
+@model LoginModel
+@{
+    ViewData["Title"] = "Log in";
+}
+
+<div class="aqx-auth-split">
+    <div class="aqx-auth-shell">
+
+        <!-- Brand / marketing side -->
+        <aside class="aqx-auth-brand">
+            <div class="aqx-auth-brand-top">
+                <img src="~/images/logo.png" alt="AqarX logo" class="aqx-auth-logo" />
+                <div>
+                    <div class="aqx-auth-brand-name">AqarX</div>
+                    <div class="aqx-auth-brand-tag">Premium Real Estate</div>
+                </div>
+            </div>
+
+            <div class="aqx-auth-brand-body">
+                <h2>Your next property is waiting.</h2>
+                <p>
+                    Sign in to manage your listings, track bookings, and reach thousands of
+                    buyers and tenants across Egypt — all from one dashboard.
+                </p>
+            </div>
+
+            <ul class="aqx-auth-features">
+                <li><span class="material-symbols-outlined">verified</span> Verified listings you can trust</li>
+                <li><span class="material-symbols-outlined">bolt</span> Manage everything in one place</li>
+                <li><span class="material-symbols-outlined">support_agent</span> Support whenever you need it</li>
+            </ul>
+        </aside>
+
+        <!-- Form side -->
+        <div class="aqx-auth-panel">
+            <div class="aqx-auth-header">
+                <h1>Welcome back</h1>
+                <p class="aqx-subtitle">Log in to your AqarX account</p>
+            </div>
+
+            <form id="account" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger" style="margin-bottom: 1rem;"></div>
+
+                <div class="form-group" style="margin-bottom: 1.5rem;">
+                    <label asp-for="Input.Email" class="control-label">Email address</label>
+                    <input asp-for="Input.Email" class="form-control w-full" autocomplete="username" placeholder="name@example.com" />
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 1.5rem;">
+                    <label asp-for="Input.Password" class="control-label">Password</label>
+                    <input asp-for="Input.Password" class="form-control w-full" autocomplete="current-password" placeholder="••••••••" />
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+
+                <div class="aqx-auth-options">
+                    <label style="cursor: pointer;">
+                        <input type="checkbox" asp-for="Input.RememberMe" /> Remember me
+                    </label>
+                    <a asp-page="./ForgotPassword" class="aqx-forgot-link">Forgot password?</a>
+                </div>
+
+                <button type="submit" class="btn-primary aqx-auth-submit">Log in</button>
+            </form>
+
+            <p class="aqx-auth-footer">
+                Don't have an account? <a asp-page="./Register">Register here</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,69 @@
+@model RealEstateProject.Models.Property
+
+@{
+    ViewData["Title"] = "Edit Property";
+}
+
+<div class="aqx-page-header">
+    <div>
+        <h1>Edit Property</h1>
+        <p class="aqx-subtitle">@Model.PropType in @Model.Location</p>
+    </div>
+</div>
+
+<div class="aqx-detail-card">
+    <form asp-action="Edit">
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-4"></div>
+        <input type="hidden" asp-for="PropId" />
+
+        <div class="form-group mb-4">
+            <label asp-for="OwnerId" class="control-label block"></label>
+            <select asp-for="OwnerId" class="form-control w-full" asp-items="ViewBag.OwnerId"></select>
+            <span asp-validation-for="OwnerId" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-4">
+            <label asp-for="PropType" class="control-label block"></label>
+            <input asp-for="PropType" class="form-control w-full" />
+            <span asp-validation-for="PropType" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-4">
+            <label asp-for="Purpose" class="control-label block"></label>
+            <input asp-for="Purpose" class="form-control w-full" />
+            <span asp-validation-for="Purpose" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-4">
+            <label asp-for="Price" class="control-label block"></label>
+            <input asp-for="Price" class="form-control w-full" />
+            <span asp-validation-for="Price" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-4">
+            <label asp-for="Location" class="control-label block"></label>
+            <input asp-for="Location" class="form-control w-full" />
+            <span asp-validation-for="Location" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-4">
+            <label asp-for="Conditions" class="control-label block"></label>
+            <input asp-for="Conditions" class="form-control w-full" />
+            <span asp-validation-for="Conditions" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-4">
+            <label asp-for="PublishStatus" class="control-label block"></label>
+            <input asp-for="PublishStatus" class="form-control w-full" />
+            <span asp-validation-for="PublishStatus" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-4">
+            <label asp-for="ListingStatus" class="control-label block"></label>
+            <input asp-for="ListingStatus" class="form-control w-full" />
+            <span asp-validation-for="ListingStatus" class="text-danger"></span>
+        </div>
+
+        <div class="aqx-actions-bar">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

@@ -1,0 +1,30 @@
+@model RealEstateProject.Models.Tenant
+
+@{
+    ViewData["Title"] = "Tenant Details";
+}
+
+<div class="aqx-page-header">
+    <div>
+        <h1>Tenant Details</h1>
+        <p class="aqx-subtitle">Tenant #@Model.TenantId</p>
+    </div>
+</div>
+
+<div class="aqx-detail-card">
+    <dl class="row">
+        <dt>@Html.DisplayNameFor(model => model.SmokingStatus)</dt>
+        <dd>@Html.DisplayFor(model => model.SmokingStatus)</dd>
+        <dt>@Html.DisplayNameFor(model => model.Personality)</dt>
+        <dd>@Html.DisplayFor(model => model.Personality)</dd>
+        <dt>@Html.DisplayNameFor(model => model.Occupation)</dt>
+        <dd>@Html.DisplayFor(model => model.Occupation)</dd>
+        <dt>@Html.DisplayNameFor(model => model.User)</dt>
+        <dd>@Html.DisplayFor(model => model.User.UserId)</dd>
+    </dl>
+
+    <div class="aqx-actions-bar">
+        <a asp-action="Edit" asp-route-id="@Model?.TenantId" class="btn btn-primary">Edit</a>
+        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    </div>
+</div>

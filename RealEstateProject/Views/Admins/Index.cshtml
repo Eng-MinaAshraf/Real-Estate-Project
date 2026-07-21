@@ -1,0 +1,51 @@
+@model IEnumerable<RealEstateProject.Models.Admin>
+
+@{
+    ViewData["Title"] = "Admins";
+}
+
+<div class="aqx-page-header">
+    <div>
+        <h1>Admins</h1>
+        <p class="aqx-subtitle">@Model.Count() admin(s)</p>
+    </div>
+    <a asp-action="Create" class="btn btn-primary">
+        <span class="material-symbols-outlined text-base">add</span> New Admin
+    </a>
+</div>
+
+@if (Model.Any())
+{
+    <div class="overflow-x-auto rounded-2xl border border-white/5">
+        <table class="table w-full">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.User)</th>
+                    <th class="text-right">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.User.UserId)</td>
+                        <td>
+                            <div class="aqx-actions justify-end">
+                                <a asp-action="Details" asp-route-id="@item.AdminId" class="aqx-btn-ghost">View</a>
+                                <a asp-action="Edit" asp-route-id="@item.AdminId" class="aqx-btn-ghost">Edit</a>
+                                <a asp-action="Delete" asp-route-id="@item.AdminId" class="aqx-btn-ghost aqx-danger">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <div class="aqx-empty">
+        <p>No admins found.</p>
+        <a asp-action="Create" class="btn btn-primary">New Admin</a>
+    </div>
+}

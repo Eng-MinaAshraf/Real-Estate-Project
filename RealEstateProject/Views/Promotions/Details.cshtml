@@ -1,0 +1,30 @@
+@model RealEstateProject.Models.Promotion
+
+@{
+    ViewData["Title"] = "Promotion Details";
+}
+
+<div class="aqx-page-header">
+    <div>
+        <h1>Promotion Details</h1>
+        <p class="aqx-subtitle">Promotion #@Model.PromoId</p>
+    </div>
+</div>
+
+<div class="aqx-detail-card">
+    <dl class="row">
+        <dt>@Html.DisplayNameFor(model => model.Property)</dt>
+        <dd>@Html.DisplayFor(model => model.Property.PropId)</dd>
+        <dt>@Html.DisplayNameFor(model => model.StartDate)</dt>
+        <dd>@Html.DisplayFor(model => model.StartDate)</dd>
+        <dt>@Html.DisplayNameFor(model => model.EndDate)</dt>
+        <dd>@Html.DisplayFor(model => model.EndDate)</dd>
+        <dt>@Html.DisplayNameFor(model => model.PaidAmount)</dt>
+        <dd>@Html.DisplayFor(model => model.PaidAmount)</dd>
+    </dl>
+
+    <div class="aqx-actions-bar">
+        <a asp-action="Edit" asp-route-id="@Model?.PromoId" class="btn btn-primary">Edit</a>
+        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    </div>
+</div>

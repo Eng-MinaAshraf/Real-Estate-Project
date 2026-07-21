@@ -1,0 +1,117 @@
+@model RealEstateProject.Models.Property
+
+@{
+    ViewData["Title"] = "Property Details";
+    var status = Model.ListingStatus?.ToLower();
+    string statusClasses = status switch
+    {
+        "available" => "bg-green-500/15 text-green-300 border border-green-500/25",
+        "sold" => "bg-red-500/15 text-red-300 border border-red-500/25",
+        "rented" => "bg-amber-500/15 text-amber-300 border border-amber-500/25",
+        "reserved" => "bg-white/10 text-gray-200 border border-white/20",
+        _ => "bg-white/10 text-gray-300 border border-white/15"
+    };
+    // Edit/Delete تظهر للمالك بتاع العقار نفسه بس (أو الأدمن)
+    var currentOwnerId = ViewBag.CurrentOwnerId as int?;
+    var canManage = User.IsInRole("Admin")
+        || (currentOwnerId != null && Model.OwnerId == currentOwnerId);
+}
+
+<!-- Header -->
+<div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-8">
+    <div>
+        <a asp-action="Index" class="inline-flex items-center gap-1 text-sm text-gray-400 hover:text-white transition-colors mb-3">
+            <span class="material-symbols-outlined text-base">arrow_back</span> Back to List
+        </a>
+        <h1 class="text-3xl font-black text-white mb-1">@Model.PropType in @Model.Location</h1>
+        <p class="text-sm text-gray-500">
+            Listed by @(Model.Owner?.User?.Fname ?? "—") @(Model.Owner?.User?.Lname ?? "")
+        </p>
+    </div>
+    <span class="text-xs font-bold uppercase tracking-wide px-3 py-1.5 rounded-full self-start @statusClasses">@Model.ListingStatus</span>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+
+    <!-- Left: Gallery -->
+    <div class="lg:col-span-2">
+        @if (Model.MediaFiles != null && Model.MediaFiles.Any())
+        {
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                @foreach (var item in Model.MediaFiles)
+                {
+                    <a href="@item.MediaUrl" target="_blank"
+                       class="block h-56 rounded-2xl overflow-hidden border border-white/5 group">
+                        <img src="@item.MediaUrl" alt="Property photo"
+                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                    </a>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="flex flex-col items-center justify-center text-center py-20 bg-surface-container-low rounded-2xl border border-white/5">
+                <span class="material-symbols-outlined text-5xl text-gray-600 mb-3">image_not_supported</span>
+                <p class="text-gray-400">No photos uploaded for this property yet.</p>
+            </div>
+        }
+    </div>
+
+    <!-- Right: Details card (sticky) -->
+    <div class="bg-surface-container-low border border-white/10 rounded-2xl p-6 shadow-xl lg:sticky lg:top-6">
+        <div class="text-3xl font-bold text-white pb-5 mb-5 border-b border-white/5">
+            @Model.Price?.ToString("N0") <span class="text-base font-normal text-gray-400">EGP</span>
+            @if (Model.Purpose == "Rent")
+            {
+                <span class="text-sm font-normal text-gray-500">/ month</span>
+            }
+        </div>
+
+        <dl class="mb-6">
+            <div class="flex justify-between items-center py-3 border-b border-white/5">
+                <dt class="text-sm text-gray-500">Purpose</dt>
+                <dd class="text-sm font-medium text-white m-0">@Model.Purpose</dd>
+            </div>
+            <div class="flex justify-between items-center py-3 border-b border-white/5">
+                <dt class="text-sm text-gray-500">Location</dt>
+                <dd class="text-sm font-medium text-white m-0">@Model.Location</dd>
+            </div>
+            <div class="flex justify-between items-center py-3 border-b border-white/5">
+                <dt class="text-sm text-gray-500">Conditions</dt>
+                <dd class="text-sm font-medium text-white m-0">@Model.Conditions</dd>
+            </div>
+            <div class="flex justify-between items-center py-3 border-b border-white/5">
+                <dt class="text-sm text-gray-500">Publish Status</dt>
+                <dd class="text-sm font-medium m-0 @(Model.PublishStatus == "Published" ? "text-green-400" : "text-amber-400")">@Model.PublishStatus</dd>
+            </div>
+            <div class="flex justify-between items-center py-3">
+                <dt class="text-sm text-gray-500">Owner Email</dt>
+                <dd class="text-sm font-medium text-white m-0 truncate max-w-[160px]">@(Model.Owner?.User?.Email ?? "—")</dd>
+            </div>
+        </dl>
+
+        <div class="flex flex-col gap-3">
+            @if (User.IsInRole("Tenant") && Model.Owner?.User != null)
+            {
+                var subject = Uri.EscapeDataString($"Inquiry about {Model.PropType} in {Model.Location}");
+                var body = Uri.EscapeDataString($"Hi {Model.Owner.User.Fname},\n\nI'm interested in your property listed on AqarX ({Model.PropType} in {Model.Location}, {Model.Price?.ToString("N0")} EGP). Could you share more details?\n\nThanks.");
+                <a href="mailto:@Model.Owner.User.Email?subject=@subject&body=@body"
+                   class="inline-flex items-center justify-center gap-2 w-full bg-white text-black px-5 py-3 rounded-xl font-semibold hover:bg-gray-200 transition-colors text-sm">
+                    <span class="material-symbols-outlined text-base">mail</span> Contact Owner
+                </a>
+            }
+
+            @if (canManage)
+            {
+                <a asp-action="Edit" asp-route-id="@Model.PropId"
+                   class="inline-flex items-center justify-center gap-2 w-full bg-surface-container-high text-white px-5 py-3 rounded-xl font-semibold hover:bg-surface-container-highest transition-colors text-sm border border-white/10">
+                    <span class="material-symbols-outlined text-base">edit</span> Edit Property
+                </a>
+                <a asp-action="Delete" asp-route-id="@Model.PropId"
+                   class="inline-flex items-center justify-center gap-2 w-full bg-red-500/10 text-red-400 px-5 py-3 rounded-xl font-semibold hover:bg-red-500/20 transition-colors text-sm border border-red-500/20">
+                    <span class="material-symbols-outlined text-base">delete</span> Delete Property
+                </a>
+            }
+        </div>
+    </div>
+</div>

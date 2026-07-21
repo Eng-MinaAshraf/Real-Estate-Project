@@ -1,0 +1,36 @@
+@model RealEstateProject.Models.Alert
+
+@{
+    ViewData["Title"] = "Alert Details";
+}
+
+<div class="aqx-page-header">
+    <div>
+        <h1>Alert Details</h1>
+        <p class="aqx-subtitle">Alert #@Model.AlertId</p>
+    </div>
+</div>
+
+<div class="aqx-detail-card">
+    <dl class="row">
+        <dt>Property Type</dt>
+        <dd>@Model.PropertyType</dd>
+        <dt>Purpose</dt>
+        <dd>@Model.Purpose</dd>
+        <dt>Location</dt>
+        <dd>@Model.Location</dd>
+        <dt>Min Price</dt>
+        <dd>@(Model.MinPrice?.ToString("N0") ?? "—")</dd>
+        <dt>Max Price</dt>
+        <dd>@Model.MaxPrice?.ToString("N0")</dd>
+        <dt>Status</dt>
+        <dd>@(Model.IsActive ? "Active" : "Inactive")</dd>
+        <dt>Created</dt>
+        <dd>@Model.CreatedAt.ToLocalTime().ToString("dd MMM yyyy")</dd>
+    </dl>
+
+    <div class="aqx-actions-bar">
+        <a asp-action="Edit" asp-route-id="@Model?.AlertId" class="btn btn-primary">Edit</a>
+        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    </div>
+</div>

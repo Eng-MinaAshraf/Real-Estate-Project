@@ -1,0 +1,36 @@
+@model RealEstateProject.Models.SubscriptionPlan
+
+@{
+    ViewData["Title"] = "Plan Details";
+}
+
+<div class="aqx-page-header">
+    <div>
+        <h1>Plan Details</h1>
+        <p class="aqx-subtitle">@Model.PlanName</p>
+    </div>
+</div>
+
+<div class="aqx-detail-card">
+    <dl class="row">
+        <dt>@Html.DisplayNameFor(model => model.PlanName)</dt>
+        <dd>@Html.DisplayFor(model => model.PlanName)</dd>
+        <dt>@Html.DisplayNameFor(model => model.MaxUnits)</dt>
+        <dd>@Html.DisplayFor(model => model.MaxUnits)</dd>
+        <dt>@Html.DisplayNameFor(model => model.AllowedUnitTypes)</dt>
+        <dd>@Html.DisplayFor(model => model.AllowedUnitTypes)</dd>
+        <dt>@Html.DisplayNameFor(model => model.MaxMediaCount)</dt>
+        <dd>@Html.DisplayFor(model => model.MaxMediaCount)</dd>
+        <dt>@Html.DisplayNameFor(model => model.HasFeaturedSearch)</dt>
+        <dd>@Html.DisplayFor(model => model.HasFeaturedSearch)</dd>
+        <dt>@Html.DisplayNameFor(model => model.HasMonthlyReports)</dt>
+        <dd>@Html.DisplayFor(model => model.HasMonthlyReports)</dd>
+        <dt>@Html.DisplayNameFor(model => model.HasAccountManager)</dt>
+        <dd>@Html.DisplayFor(model => model.HasAccountManager)</dd>
+    </dl>
+
+    <div class="aqx-actions-bar">
+        <a asp-action="Edit" asp-route-id="@Model?.PlanId" class="btn btn-primary">Edit</a>
+        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    </div>
+</div>

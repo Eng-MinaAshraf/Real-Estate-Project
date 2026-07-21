@@ -1,0 +1,57 @@
+@model IEnumerable<RealEstateProject.Models.ServiceRequest>
+
+@{
+    ViewData["Title"] = "Service Requests";
+}
+
+<div class="aqx-page-header">
+    <div>
+        <h1>Service Requests</h1>
+        <p class="aqx-subtitle">@Model.Count() request(s)</p>
+    </div>
+    <a asp-action="Create" class="btn btn-primary">
+        <span class="material-symbols-outlined text-base">add</span> New Request
+    </a>
+</div>
+
+@if (Model.Any())
+{
+    <div class="overflow-x-auto rounded-2xl border border-white/5">
+        <table class="table w-full">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.Tenant)</th>
+                    <th>@Html.DisplayNameFor(model => model.ServicePartner)</th>
+                    <th>@Html.DisplayNameFor(model => model.RequestDate)</th>
+                    <th>@Html.DisplayNameFor(model => model.Status)</th>
+                    <th class="text-right">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.Tenant.TenantId)</td>
+                        <td>@Html.DisplayFor(modelItem => item.ServicePartner.PartnerId)</td>
+                        <td>@Html.DisplayFor(modelItem => item.RequestDate)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Status)</td>
+                        <td>
+                            <div class="aqx-actions justify-end">
+                                <a asp-action="Details" asp-route-id="@item.RequestId" class="aqx-btn-ghost">View</a>
+                                <a asp-action="Edit" asp-route-id="@item.RequestId" class="aqx-btn-ghost">Edit</a>
+                                <a asp-action="Delete" asp-route-id="@item.RequestId" class="aqx-btn-ghost aqx-danger">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <div class="aqx-empty">
+        <p>No service requests found.</p>
+        <a asp-action="Create" class="btn btn-primary">New Request</a>
+    </div>
+}

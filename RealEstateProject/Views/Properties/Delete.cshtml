@@ -1,0 +1,43 @@
+@model RealEstateProject.Models.Property
+
+@{
+    ViewData["Title"] = "Delete Property";
+}
+
+<div class="aqx-page-header">
+    <div>
+        <h1>Delete Property</h1>
+        <p class="aqx-subtitle">This action cannot be undone</p>
+    </div>
+</div>
+
+<div class="aqx-detail-card">
+    <div class="mb-6 p-4 rounded-xl bg-red-500/10 border border-red-500/25 text-red-300 text-sm">
+        Are you sure you want to delete this property?
+    </div>
+
+    <dl class="row">
+        <dt>@Html.DisplayNameFor(model => model.Owner)</dt>
+        <dd>@Html.DisplayFor(model => model.Owner.OwnerId)</dd>
+        <dt>@Html.DisplayNameFor(model => model.PropType)</dt>
+        <dd>@Html.DisplayFor(model => model.PropType)</dd>
+        <dt>@Html.DisplayNameFor(model => model.Purpose)</dt>
+        <dd>@Html.DisplayFor(model => model.Purpose)</dd>
+        <dt>@Html.DisplayNameFor(model => model.Price)</dt>
+        <dd>@Html.DisplayFor(model => model.Price)</dd>
+        <dt>@Html.DisplayNameFor(model => model.Location)</dt>
+        <dd>@Html.DisplayFor(model => model.Location)</dd>
+        <dt>@Html.DisplayNameFor(model => model.Conditions)</dt>
+        <dd>@Html.DisplayFor(model => model.Conditions)</dd>
+        <dt>@Html.DisplayNameFor(model => model.PublishStatus)</dt>
+        <dd>@Html.DisplayFor(model => model.PublishStatus)</dd>
+        <dt>@Html.DisplayNameFor(model => model.ListingStatus)</dt>
+        <dd>@Html.DisplayFor(model => model.ListingStatus)</dd>
+    </dl>
+
+    <form asp-action="Delete" class="aqx-actions-bar">
+        <input type="hidden" asp-for="PropId" />
+        <button type="submit" class="btn btn-danger">Delete</button>
+        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    </form>
+</div>

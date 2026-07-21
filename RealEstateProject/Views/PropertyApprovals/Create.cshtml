@@ -1,0 +1,46 @@
+@model RealEstateProject.Models.PropertyApproval
+
+@{
+    ViewData["Title"] = "New Approval";
+}
+
+<div class="aqx-page-header">
+    <div>
+        <h1>New Approval</h1>
+        <p class="aqx-subtitle">Add a property approval</p>
+    </div>
+</div>
+
+<div class="aqx-detail-card">
+    <form asp-action="Create">
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-4"></div>
+
+        <div class="form-group mb-4">
+            <label asp-for="AdminId" class="control-label block"></label>
+            <select asp-for="AdminId" class="form-control w-full" asp-items="ViewBag.AdminId"></select>
+        </div>
+        <div class="form-group mb-4">
+            <label asp-for="PropId" class="control-label block"></label>
+            <select asp-for="PropId" class="form-control w-full" asp-items="ViewBag.PropId"></select>
+        </div>
+        <div class="form-group mb-4">
+            <label asp-for="ApprovalDate" class="control-label block"></label>
+            <input asp-for="ApprovalDate" class="form-control w-full" />
+            <span asp-validation-for="ApprovalDate" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-4">
+            <label asp-for="ApprovalStatus" class="control-label block"></label>
+            <input asp-for="ApprovalStatus" class="form-control w-full" />
+            <span asp-validation-for="ApprovalStatus" class="text-danger"></span>
+        </div>
+
+        <div class="aqx-actions-bar">
+            <button type="submit" class="btn btn-primary">Create</button>
+            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

@@ -1,0 +1,82 @@
+@model IEnumerable<RealEstateProject.Models.Alert>
+
+@{
+    ViewData["Title"] = "My Alerts";
+}
+
+<div class="aqx-page-header">
+    <div>
+        <h1>My Alerts</h1>
+        <p class="aqx-subtitle">@Model.Count() saved search alert(s)</p>
+    </div>
+    <a asp-controller="Properties" asp-action="Index" class="btn btn-primary">
+        <span class="material-symbols-outlined text-base">search</span> Search Properties
+    </a>
+</div>
+
+@if (Model.Any())
+{
+    <div class="overflow-x-auto rounded-2xl border border-white/5">
+        <table class="table w-full">
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Purpose</th>
+                    <th>Location</th>
+                    <th>Price range</th>
+                    <th>Status</th>
+                    <th class="text-right">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.PropertyType</td>
+                        <td>@item.Purpose</td>
+                        <td>@item.Location</td>
+                        <td>
+                            @if (item.MinPrice != null)
+                            {
+                                <span>@item.MinPrice?.ToString("N0") – @item.MaxPrice?.ToString("N0")</span>
+                            }
+                            else
+                            {
+                                <span>up to @item.MaxPrice?.ToString("N0")</span>
+                            }
+                        </td>
+                        <td>
+                            @if (item.IsActive)
+                            {
+                                <span class="aqx-badge aqx-badge-success">Active</span>
+                            }
+                            else
+                            {
+                                <span class="aqx-badge">Inactive</span>
+                            }
+                        </td>
+                        <td>
+                            <div class="aqx-actions justify-end">
+                                <form asp-action="ToggleActive" asp-route-id="@item.AlertId" method="post" class="m-0">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="aqx-btn-ghost">
+                                        @(item.IsActive ? "Deactivate" : "Activate")
+                                    </button>
+                                </form>
+                                <a asp-action="Edit" asp-route-id="@item.AlertId" class="aqx-btn-ghost">Edit</a>
+                                <a asp-action="Delete" asp-route-id="@item.AlertId" class="aqx-btn-ghost aqx-danger">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <div class="aqx-empty">
+        <p>You don't have any alerts yet. Search for properties and create an alert when nothing matches.</p>
+        <a asp-controller="Properties" asp-action="Index" class="btn btn-primary">Search Properties</a>
+    </div>
+}

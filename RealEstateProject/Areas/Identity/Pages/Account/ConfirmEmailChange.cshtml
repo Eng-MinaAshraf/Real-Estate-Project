@@ -1,0 +1,17 @@
+@page
+@model ConfirmEmailChangeModel
+@{
+    ViewData["Title"] = "Confirm email change";
+}
+
+<div class="aqx-auth-wrapper">
+    <div class="aqx-auth-card">
+        <div class="aqx-auth-header">
+            <h1>@ViewData["Title"]</h1>
+        </div>
+        <partial name="/Areas/Identity/Pages/Account/Manage/_StatusMessage.cshtml" for="StatusMessage" />
+        <div class="aqx-auth-footer">
+            <a asp-area="Identity" asp-page="/Account/Manage/Email">Back to email settings</a>
+        </div>
+    </div>
+</div>

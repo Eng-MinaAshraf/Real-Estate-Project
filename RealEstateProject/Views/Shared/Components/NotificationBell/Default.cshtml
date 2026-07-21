@@ -1,0 +1,60 @@
+@using RealEstateProject.ViewComponents
+@model NotificationBellViewComponent.NotificationBellViewModel
+
+<div class="aqx-notif" data-notif-root>
+    <button type="button"
+            class="aqx-notif-trigger"
+            aria-haspopup="true"
+            aria-expanded="false"
+            aria-label="Notifications"
+            data-notif-toggle>
+        <span class="material-symbols-outlined">notifications</span>
+        <span class="aqx-notif-badge @(Model.UnreadCount == 0 ? "aqx-hidden" : "")" data-notif-badge>
+            @(Model.UnreadCount > 9 ? "9+" : Model.UnreadCount.ToString())
+        </span>
+    </button>
+
+    <div class="aqx-notif-dropdown aqx-hidden" data-notif-panel role="menu" aria-label="Notifications">
+        <div class="aqx-notif-header">
+            <span class="aqx-notif-title">Notifications</span>
+            <form asp-controller="Notifications" asp-action="MarkAllAsRead" method="post" class="m-0" data-notif-markall-form>
+                @Html.AntiForgeryToken()
+                <button type="submit" class="aqx-notif-markall" data-notif-markall>Mark all as read</button>
+            </form>
+        </div>
+
+        <div class="aqx-notif-list" data-notif-list>
+            @if (Model.Items.Count == 0)
+            {
+                <div class="aqx-notif-empty">
+                    <span class="material-symbols-outlined">notifications_off</span>
+                    <p>You're all caught up</p>
+                </div>
+            }
+            else
+            {
+                @foreach (var n in Model.Items)
+                {
+                    <a class="aqx-notif-item @(n.IsRead ? "" : "aqx-notif-unread")"
+                       href="@(string.IsNullOrEmpty(n.Url) ? Url.Action("Index", "Notifications") : n.Url)"
+                       role="menuitem">
+                        <span class="aqx-notif-item-icon material-symbols-outlined">@(string.IsNullOrEmpty(n.Icon) ? "notifications" : n.Icon)</span>
+                        <span class="aqx-notif-item-body">
+                            <span class="aqx-notif-item-title">@n.Title</span>
+                            <span class="aqx-notif-item-msg">@n.Message</span>
+                            <span class="aqx-notif-item-time">@n.CreatedAt.ToLocalTime().ToString("dd MMM, HH:mm")</span>
+                        </span>
+                        @if (!n.IsRead)
+                        {
+                            <span class="aqx-notif-dot" aria-hidden="true"></span>
+                        }
+                    </a>
+                }
+            }
+        </div>
+
+        <div class="aqx-notif-footer">
+            <a asp-controller="Notifications" asp-action="Index" class="aqx-notif-viewall">View all notifications</a>
+        </div>
+    </div>
+</div>

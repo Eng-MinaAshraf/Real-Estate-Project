@@ -1,0 +1,30 @@
+﻿@{
+    if (ViewData.TryGetValue("ParentLayout", out var parentLayout) && parentLayout != null)
+    {
+        Layout = parentLayout.ToString();
+    }
+    else
+    {
+        Layout = "/Areas/Identity/Pages/_Layout.cshtml";
+    }
+}
+
+<div class="aqx-page-header">
+    <div>
+        <h1>Account Settings</h1>
+        <p class="aqx-subtitle">Manage your profile, security and preferences</p>
+    </div>
+</div>
+
+<div class="aqx-manage-grid">
+    <div class="aqx-manage-sidebar">
+        <partial name="_ManageNav" />
+    </div>
+    <div class="aqx-manage-content">
+        @RenderBody()
+    </div>
+</div>
+
+@section Scripts {
+    @RenderSection("Scripts", required: false)
+}

@@ -1,0 +1,324 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - AqarX</title>
+
+    <!-- Theme bootstrap: يطبّق الثيم قبل الرسم عشان مايحصلش وميض (FOUC) -->
+    <script>
+        (function () {
+            try {
+                var stored = localStorage.getItem('aqx-theme');
+                var theme = stored
+                    || (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+                var root = document.documentElement;
+                root.classList.add(theme);
+                root.setAttribute('data-theme', theme);
+                root.style.colorScheme = theme;
+            } catch (e) {
+                document.documentElement.classList.add('dark');
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        })();
+    </script>
+
+    <!-- Tailwind CSS & Fonts -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+
+    <!-- Old CSS for backward compatibility -->
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        // مربوطة بمتغيّرات CSS عشان الثيم يتبدّل من غير reload
+                        "surface": "var(--tw-surface)",
+                        "primary": "var(--tw-primary)",
+                        "surface-container-high": "var(--tw-surface-high)",
+                        "surface-container-highest": "var(--tw-surface-highest)",
+                        "surface-container-low": "var(--tw-surface-low)",
+                    },
+                    fontFamily: {
+                        "body-md": ["Inter", "sans-serif"],
+                        "headline-sm": ["Hanken Grotesk", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: var(--aqx-bg);
+            color: var(--aqx-text);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .glass-panel {
+            background-color: var(--aqx-surface);
+            border: 1px solid var(--aqx-border-soft);
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Hanken Grotesk', sans-serif;
+        }
+
+        a {
+            text-decoration: none !important;
+        }
+
+        /* Collapsible admin nav groups */
+        .aqx-nav-group > summary {
+            list-style: none;
+            cursor: pointer;
+        }
+
+            .aqx-nav-group > summary::-webkit-details-marker {
+                display: none;
+            }
+
+        .aqx-nav-chevron {
+            transition: transform 0.2s ease;
+        }
+
+        .aqx-nav-group[open] > summary .aqx-nav-chevron {
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+<body class="flex min-h-screen">
+
+    <!-- Sidebar Navigation (Desktop) -->
+    <nav class="hidden lg:flex flex-col fixed left-0 top-0 h-full w-64 p-4 gap-4 bg-surface-container-low border-r border-white/5 z-40">
+        <div class="mb-8 flex items-center gap-2 px-4 mt-2">
+            <span class="material-symbols-outlined text-white text-3xl">real_estate_agent</span>
+            <div>
+                <h1 class="text-xl font-black text-white mb-0" style="border: none;">AqarX</h1>
+                <p class="text-xs text-gray-400 mb-0">Premium Management</p>
+            </div>
+        </div>
+
+        <div class="flex-1 flex flex-col gap-2 overflow-y-auto">
+            <a asp-controller="Home" asp-action="Index" class="text-gray-400 hover:text-white rounded-xl px-4 py-3 flex items-center gap-3 hover:bg-surface-container-high transition-all">
+                <span class="material-symbols-outlined">home</span>
+                <span class="text-sm font-medium">Home</span>
+            </a>
+            <a asp-controller="Properties" asp-action="Index" class="text-gray-400 hover:text-white rounded-xl px-4 py-3 flex items-center gap-3 hover:bg-surface-container-high transition-all">
+                <span class="material-symbols-outlined">domain</span>
+                <span class="text-sm font-medium">Properties</span>
+            </a>
+            <a asp-controller="SubscriptionPlans" asp-action="Index" class="text-gray-400 hover:text-white rounded-xl px-4 py-3 flex items-center gap-3 hover:bg-surface-container-high transition-all">
+                <span class="material-symbols-outlined">sell</span>
+                <span class="text-sm font-medium">Pricing</span>
+            </a>
+
+            @if (User.Identity.IsAuthenticated)
+            {
+                <a asp-controller="Dashboard" asp-action="Index" class="text-gray-400 hover:text-white rounded-xl px-4 py-3 flex items-center gap-3 hover:bg-surface-container-high transition-all">
+                    <span class="material-symbols-outlined">person</span>
+                    <span class="text-sm font-medium">My Account</span>
+                </a>
+
+                @if (User.IsInRole("Admin"))
+                {
+                    <div class="pt-4 mt-2 border-t border-white/5 flex flex-col gap-1">
+                        <p class="px-4 text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Admin Tools</p>
+
+                        <!-- User Management -->
+                        <details class="aqx-nav-group" open>
+                            <summary class="text-gray-300 hover:text-white rounded-xl px-4 py-2.5 flex items-center gap-3 hover:bg-surface-container-high transition-all">
+                                <span class="material-symbols-outlined text-base">group</span>
+                                <span class="text-sm font-semibold flex-1">User Management</span>
+                                <span class="material-symbols-outlined text-base aqx-nav-chevron">expand_more</span>
+                            </summary>
+                            <div class="flex flex-col mt-1 ml-3 pl-3 border-l border-white/5">
+                                <a asp-controller="Users" asp-action="Index" class="text-gray-400 hover:text-white rounded-lg px-4 py-2 flex items-center gap-3 hover:bg-surface-container-high transition-all">
+                                    <span class="material-symbols-outlined text-sm">manage_accounts</span>
+                                    <span class="text-sm font-medium">Users</span>
+                                </a>
+                                <a asp-controller="Admins" asp-action="Index" class="text-gray-400 hover:text-white rounded-lg px-4 py-2 flex items-center gap-3 hover:bg-surface-container-high transition-all">
+                                    <span class="material-symbols-outlined text-sm">admin_panel_settings</span>
+                                    <span class="text-sm font-medium">Admins</span>
+                                </a>
+                                <a asp-controller="Owners" asp-action="Index" class="text-gray-400 hover:text-white rounded-lg px-4 py-2 flex items-center gap-3 hover:bg-surface-container-high transition-all">
+                                    <span class="material-symbols-outlined text-sm">real_estate_agent</span>
+                                    <span class="text-sm font-medium">Owners</span>
+                                </a>
+                                <a asp-controller="Tenants" asp-action="Index" class="text-gray-400 hover:text-white rounded-lg px-4 py-2 flex items-center gap-3 hover:bg-surface-container-high transition-all">
+                                    <span class="material-symbols-outlined text-sm">groups</span>
+                                    <span class="text-sm font-medium">Tenants</span>
+                                </a>
+                                <a asp-controller="PropertyApprovals" asp-action="Index" class="text-gray-400 hover:text-white rounded-lg px-4 py-2 flex items-center gap-3 hover:bg-surface-container-high transition-all">
+                                    <span class="material-symbols-outlined text-sm">fact_check</span>
+                                    <span class="text-sm font-medium">Property Approvals</span>
+                                </a>
+                            </div>
+                        </details>
+
+                        <!-- Property Management -->
+                        <details class="aqx-nav-group">
+                            <summary class="text-gray-300 hover:text-white rounded-xl px-4 py-2.5 flex items-center gap-3 hover:bg-surface-container-high transition-all">
+                                <span class="material-symbols-outlined text-base">apartment</span>
+                                <span class="text-sm font-semibold flex-1">Property Management</span>
+                                <span class="material-symbols-outlined text-base aqx-nav-chevron">expand_more</span>
+                            </summary>
+                            <div class="flex flex-col mt-1 ml-3 pl-3 border-l border-white/5">
+                                <a asp-controller="Properties" asp-action="Index" class="text-gray-400 hover:text-white rounded-lg px-4 py-2 flex items-center gap-3 hover:bg-surface-container-high transition-all">
+                                    <span class="material-symbols-outlined text-sm">domain</span>
+                                    <span class="text-sm font-medium">Properties</span>
+                                </a>
+                                <a asp-controller="Media" asp-action="Index" class="text-gray-400 hover:text-white rounded-lg px-4 py-2 flex items-center gap-3 hover:bg-surface-container-high transition-all">
+                                    <span class="material-symbols-outlined text-sm">perm_media</span>
+                                    <span class="text-sm font-medium">Media</span>
+                                </a>
+                                <a asp-controller="Ratings" asp-action="Index" class="text-gray-400 hover:text-white rounded-lg px-4 py-2 flex items-center gap-3 hover:bg-surface-container-high transition-all">
+                                    <span class="material-symbols-outlined text-sm">star</span>
+                                    <span class="text-sm font-medium">Ratings</span>
+                                </a>
+                                <a asp-controller="Promotions" asp-action="Index" class="text-gray-400 hover:text-white rounded-lg px-4 py-2 flex items-center gap-3 hover:bg-surface-container-high transition-all">
+                                    <span class="material-symbols-outlined text-sm">campaign</span>
+                                    <span class="text-sm font-medium">Promotions</span>
+                                </a>
+                            </div>
+                        </details>
+
+                        <!-- Sales & Subscriptions -->
+                        <details class="aqx-nav-group">
+                            <summary class="text-gray-300 hover:text-white rounded-xl px-4 py-2.5 flex items-center gap-3 hover:bg-surface-container-high transition-all">
+                                <span class="material-symbols-outlined text-base">payments</span>
+                                <span class="text-sm font-semibold flex-1">Sales &amp; Subscriptions</span>
+                                <span class="material-symbols-outlined text-base aqx-nav-chevron">expand_more</span>
+                            </summary>
+                            <div class="flex flex-col mt-1 ml-3 pl-3 border-l border-white/5">
+                                <a asp-controller="Subscriptions" asp-action="Index" class="text-gray-400 hover:text-white rounded-lg px-4 py-2 flex items-center gap-3 hover:bg-surface-container-high transition-all">
+                                    <span class="material-symbols-outlined text-sm">card_membership</span>
+                                    <span class="text-sm font-medium">Subscriptions</span>
+                                </a>
+                            </div>
+                        </details>
+
+                        <!-- Services -->
+                        <details class="aqx-nav-group">
+                            <summary class="text-gray-300 hover:text-white rounded-xl px-4 py-2.5 flex items-center gap-3 hover:bg-surface-container-high transition-all">
+                                <span class="material-symbols-outlined text-base">handyman</span>
+                                <span class="text-sm font-semibold flex-1">Services</span>
+                                <span class="material-symbols-outlined text-base aqx-nav-chevron">expand_more</span>
+                            </summary>
+                            <div class="flex flex-col mt-1 ml-3 pl-3 border-l border-white/5">
+                                <a asp-controller="ServiceRequests" asp-action="Index" class="text-gray-400 hover:text-white rounded-lg px-4 py-2 flex items-center gap-3 hover:bg-surface-container-high transition-all">
+                                    <span class="material-symbols-outlined text-sm">assignment</span>
+                                    <span class="text-sm font-medium">Service Requests</span>
+                                </a>
+                                <a asp-controller="ServicePartners" asp-action="Index" class="text-gray-400 hover:text-white rounded-lg px-4 py-2 flex items-center gap-3 hover:bg-surface-container-high transition-all">
+                                    <span class="material-symbols-outlined text-sm">handshake</span>
+                                    <span class="text-sm font-medium">Service Partners</span>
+                                </a>
+                            </div>
+                        </details>
+                    </div>
+                }
+
+                @if (User.IsInRole("Tenant"))
+                {
+                    <a asp-controller="Alerts" asp-action="Index" class="text-gray-400 hover:text-white rounded-xl px-4 py-3 flex items-center gap-3 hover:bg-surface-container-high transition-all">
+                        <span class="material-symbols-outlined">notifications_active</span>
+                        <span class="text-sm font-medium">My Alerts</span>
+                    </a>
+                }
+            }
+        </div>
+
+        <div class="mt-auto flex flex-col gap-2 pt-4 border-t border-white/5">
+            <div class="flex items-center gap-2 px-1">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    @await Component.InvokeAsync("NotificationBell")
+                }
+                <button type="button" class="aqx-theme-toggle" data-theme-toggle aria-label="Toggle light and dark theme" title="Toggle theme">
+                    <span class="material-symbols-outlined aqx-theme-icon-dark">dark_mode</span>
+                    <span class="material-symbols-outlined aqx-theme-icon-light">light_mode</span>
+                </button>
+            </div>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <form class="m-0 p-0" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post">
+                    <button type="submit" class="w-full text-left text-gray-400 hover:text-white rounded-xl px-4 py-3 flex items-center gap-3 hover:bg-surface-container-high transition-all border-0 bg-transparent">
+                        <span class="material-symbols-outlined">logout</span>
+                        <span class="text-sm font-medium">Logout</span>
+                    </button>
+                </form>
+            }
+            else
+            {
+                <a asp-area="Identity" asp-page="/Account/Login" class="text-gray-400 hover:text-white rounded-xl px-4 py-3 flex items-center gap-3 hover:bg-surface-container-high transition-all">
+                    <span class="material-symbols-outlined">login</span>
+                    <span class="text-sm font-medium">Login</span>
+                </a>
+                <a asp-area="Identity" asp-page="/Account/Register" class="text-gray-400 hover:text-white rounded-xl px-4 py-3 flex items-center gap-3 hover:bg-surface-container-high transition-all">
+                    <span class="material-symbols-outlined">person_add</span>
+                    <span class="text-sm font-medium">Register</span>
+                </a>
+            }
+        </div>
+    </nav>
+
+    <!-- Mobile TopBar -->
+    <header class="flex justify-between items-center w-full px-6 h-16 bg-[#131313]/90 backdrop-blur-md z-50 sticky top-0 lg:hidden border-b border-white/10">
+        <div class="flex items-center gap-2 text-white">
+            <span class="material-symbols-outlined text-2xl">real_estate_agent</span>
+            <span class="text-xl font-bold">AqarX</span>
+        </div>
+        <div class="flex items-center gap-2">
+            @if (User.Identity.IsAuthenticated)
+            {
+                @await Component.InvokeAsync("NotificationBell")
+            }
+            <button type="button" class="aqx-theme-toggle" data-theme-toggle aria-label="Toggle light and dark theme" title="Toggle theme">
+                <span class="material-symbols-outlined aqx-theme-icon-dark">dark_mode</span>
+                <span class="material-symbols-outlined aqx-theme-icon-light">light_mode</span>
+            </button>
+            <button class="text-gray-400 hover:text-white" onclick="document.querySelector('nav').classList.toggle('hidden')">
+                <span class="material-symbols-outlined">menu</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Wrapper -->
+    <div class="flex-1 lg:ml-64 flex flex-col min-h-screen w-full">
+        <main class="flex-1 p-6 md:p-8 max-w-[1280px] w-full mx-auto">
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="aqx-alert aqx-alert-success mb-6 p-4 rounded-lg bg-green-900/40 border border-green-500/50 text-green-300">
+                    @TempData["SuccessMessage"]
+                </div>
+            }
+            <!-- هنا بيتعرض محتوى أي صفحة في الموقع -->
+            @RenderBody()
+        </main>
+
+        <!-- Footer -->
+        <footer class="w-full mt-auto px-8 py-6 flex flex-col md:flex-row justify-between items-center gap-4 border-t border-white/5 bg-[#131313]">
+            <div class="text-sm font-bold text-gray-400">
+                &copy; 2026 AqarX - Premium Real Estate
+            </div>
+            <div class="flex gap-4 text-sm text-gray-400">
+                <a asp-controller="Home" asp-action="Privacy" class="hover:text-white transition-colors">Privacy</a>
+                <a href="#" class="hover:text-white transition-colors">Terms</a>
+            </div>
+        </footer>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

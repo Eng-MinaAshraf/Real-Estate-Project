@@ -1,0 +1,33 @@
+@model RealEstateProject.Models.ServicePartner
+
+@{
+    ViewData["Title"] = "Delete Service Partner";
+}
+
+<div class="aqx-page-header">
+    <div>
+        <h1>Delete Service Partner</h1>
+        <p class="aqx-subtitle">This action cannot be undone</p>
+    </div>
+</div>
+
+<div class="aqx-detail-card">
+    <div class="mb-6 p-4 rounded-xl bg-red-500/10 border border-red-500/25 text-red-300 text-sm">
+        Are you sure you want to delete this service partner?
+    </div>
+
+    <dl class="row">
+        <dt>@Html.DisplayNameFor(model => model.CompanyName)</dt>
+        <dd>@Html.DisplayFor(model => model.CompanyName)</dd>
+        <dt>@Html.DisplayNameFor(model => model.ServiceCategory)</dt>
+        <dd>@Html.DisplayFor(model => model.ServiceCategory)</dd>
+        <dt>@Html.DisplayNameFor(model => model.CommissionRate)</dt>
+        <dd>@Html.DisplayFor(model => model.CommissionRate)</dd>
+    </dl>
+
+    <form asp-action="Delete" class="aqx-actions-bar">
+        <input type="hidden" asp-for="PartnerId" />
+        <button type="submit" class="btn btn-danger">Delete</button>
+        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    </form>
+</div>

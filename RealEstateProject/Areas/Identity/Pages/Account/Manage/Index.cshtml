@@ -1,0 +1,90 @@
+@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Profile";
+    ViewData["ActivePage"] = ManageNavPages.Index;
+}
+
+<h3>@ViewData["Title"]</h3>
+<partial name="_StatusMessage" for="StatusMessage" />
+
+<form id="profile-form" method="post" enctype="multipart/form-data" class="aqx-manage-form">
+    <div asp-validation-summary="ModelOnly" class="text-danger mb-4" role="alert"></div>
+
+    <!-- Avatar -->
+    <div class="aqx-avatar-row">
+        <div class="aqx-avatar-preview">
+            @if (!string.IsNullOrEmpty(Model.ProfilePictureUrl))
+            {
+                <img id="avatar-image" src="@Model.ProfilePictureUrl" alt="Profile picture" />
+            }
+            else
+            {
+                <span id="avatar-initials">@Model.Initials</span>
+                <img id="avatar-image" src="" alt="Profile picture" style="display:none;" />
+            }
+        </div>
+        <div class="aqx-upload-group">
+            <label asp-for="Input.ProfilePicture" class="control-label block">Profile picture</label>
+            <input asp-for="Input.ProfilePicture" type="file" accept="image/png,image/jpeg,image/webp" class="form-control w-full" id="avatar-input" />
+            <span class="aqx-hint">JPG, PNG or WEBP. Max 2 MB.</span>
+            <span asp-validation-for="Input.ProfilePicture" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group mb-4">
+        <label class="control-label block">Username</label>
+        <input value="@Model.Username" class="form-control w-full" disabled />
+    </div>
+
+    <div class="aqx-form-row">
+        <div class="form-group mb-4">
+            <label asp-for="Input.FirstName" class="control-label block"></label>
+            <input asp-for="Input.FirstName" class="form-control w-full" placeholder="First name" />
+            <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-4">
+            <label asp-for="Input.LastName" class="control-label block"></label>
+            <input asp-for="Input.LastName" class="form-control w-full" placeholder="Last name" />
+            <span asp-validation-for="Input.LastName" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group mb-4">
+        <label asp-for="Input.PhoneNumber" class="control-label block"></label>
+        <input asp-for="Input.PhoneNumber" class="form-control w-full" placeholder="01xxxxxxxxx" />
+        <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mb-4">
+        <label asp-for="Input.Address" class="control-label block"></label>
+        <input asp-for="Input.Address" class="form-control w-full" placeholder="Address (optional)" />
+        <span asp-validation-for="Input.Address" class="text-danger"></span>
+    </div>
+
+    <button id="update-profile-button" type="submit" class="btn btn-primary">Save Changes</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        // معاينة الصورة قبل الرفع
+        (function () {
+            var input = document.getElementById('avatar-input');
+            if (!input) return;
+            input.addEventListener('change', function (e) {
+                var file = e.target.files && e.target.files[0];
+                if (!file) return;
+                var img = document.getElementById('avatar-image');
+                var initials = document.getElementById('avatar-initials');
+                var url = URL.createObjectURL(file);
+                if (img) {
+                    img.src = url;
+                    img.style.display = 'block';
+                }
+                if (initials) initials.style.display = 'none';
+            });
+        })();
+    </script>
+}

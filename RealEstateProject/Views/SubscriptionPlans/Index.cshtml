@@ -1,0 +1,93 @@
+﻿@model IEnumerable<RealEstateProject.Models.SubscriptionPlan>
+
+@{
+    ViewData["Title"] = "Subscription Plans";
+}
+
+<div class="aqx-page-header">
+    <div>
+        <h1>Subscription Plans</h1>
+        <p class="aqx-subtitle">Choose the plan that fits your portfolio</p>
+    </div>
+    @if (User.IsInRole("Admin"))
+    {
+        <a asp-action="Create" class="btn btn-primary">+ New Plan</a>
+    }
+</div>
+
+<div class="aqx-billing-toggle">
+    <span>Monthly</span>
+    <span class="aqx-toggle-note">Annual billing saves 20%</span>
+</div>
+
+@{
+    // ترتيب ثابت للخطط: Basic (شمال) → Pro (نص) → Enterprise (يمين)
+    int PlanOrder(string? name) => name switch
+    {
+        "Basic" => 0,
+        "Pro" => 1,
+        "Enterprise" => 2,
+        _ => 99
+    };
+    var orderedPlans = Model.OrderBy(p => PlanOrder(p.PlanName)).ToList();
+}
+
+<div class="aqx-pricing-grid">
+    @foreach (var item in orderedPlans)
+    {
+        <div class="aqx-pricing-card @(item.PlanName == "Pro" ? "aqx-pricing-featured" : "")">
+            @if (item.PlanName == "Pro")
+            {
+                <span class="aqx-featured-tag">Most Popular</span>
+            }
+
+            <h3 class="aqx-plan-name">@item.PlanName</h3>
+
+            <div class="aqx-plan-price">
+                @item.MonthlyPrice?.ToString("N0") <span class="aqx-currency">EGP / mo</span>
+            </div>
+            <div class="aqx-plan-annual">
+                or @((item.MonthlyPrice * 12 * 0.8m)?.ToString("N0")) EGP / year <span class="aqx-save-tag">save 20%</span>
+            </div>
+
+            <ul class="aqx-plan-features">
+                <li>
+                    <span class="aqx-check">✓</span>
+                    @(item.MaxUnits >= 999999 ? "Unlimited units" : $"Up to {item.MaxUnits} units")
+                </li>
+                <li>
+                    <span class="aqx-check">✓</span>
+                    @(item.MaxMediaCount >= 999999 ? "Unlimited photos per unit" : $"{item.MaxMediaCount} photos per unit")
+                </li>
+                <li>
+                    <span class="aqx-check">✓</span>
+                    @item.AllowedUnitTypes
+                </li>
+                <li class="@(item.HasFeaturedSearch == true ? "" : "aqx-feature-off")">
+                    <span class="aqx-check">@(item.HasFeaturedSearch == true ? "✓" : "—")</span>
+                    Featured search placement
+                </li>
+                <li class="@(item.HasMonthlyReports == true ? "" : "aqx-feature-off")">
+                    <span class="aqx-check">@(item.HasMonthlyReports == true ? "✓" : "—")</span>
+                    Monthly performance reports
+                </li>
+                <li class="@(item.HasAccountManager == true ? "" : "aqx-feature-off")">
+                    <span class="aqx-check">@(item.HasAccountManager == true ? "✓" : "—")</span>
+                    Dedicated account manager & analytics
+                </li>
+            </ul>
+
+            <div class="aqx-plan-actions">
+                @if (User.IsInRole("Owner"))
+                {
+                    <a asp-controller="Subscriptions" asp-action="Create" asp-route-planId="@item.PlanId" class="btn btn-primary aqx-plan-btn">Subscribe</a>
+                }
+                @if (User.IsInRole("Admin"))
+                {
+                    <a asp-action="Edit" asp-route-id="@item.PlanId" class="aqx-btn-ghost">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@item.PlanId" class="aqx-btn-ghost aqx-danger">Delete</a>
+                }
+            </div>
+        </div>
+    }
+</div>

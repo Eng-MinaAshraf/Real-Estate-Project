@@ -1,0 +1,63 @@
+@model RealEstateProject.Models.Alert
+
+@{
+    ViewData["Title"] = "Edit Alert";
+}
+
+<div class="aqx-page-header">
+    <div>
+        <h1>Edit Alert</h1>
+        <p class="aqx-subtitle">Alert #@Model.AlertId</p>
+    </div>
+</div>
+
+<div class="aqx-detail-card">
+    <form asp-action="Edit">
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-4"></div>
+        <input type="hidden" asp-for="AlertId" />
+
+        <div class="form-group mb-4">
+            <label asp-for="PropertyType" class="control-label block">Property Type</label>
+            <input asp-for="PropertyType" class="form-control w-full" />
+            <span asp-validation-for="PropertyType" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-4">
+            <label asp-for="Purpose" class="control-label block">Purpose</label>
+            <input asp-for="Purpose" class="form-control w-full" />
+            <span asp-validation-for="Purpose" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-4">
+            <label asp-for="Location" class="control-label block">Location</label>
+            <input asp-for="Location" class="form-control w-full" />
+            <span asp-validation-for="Location" class="text-danger"></span>
+        </div>
+        <div class="aqx-form-row">
+            <div class="form-group mb-4">
+                <label asp-for="MinPrice" class="control-label block">Min Price (optional)</label>
+                <input asp-for="MinPrice" class="form-control w-full" />
+                <span asp-validation-for="MinPrice" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-4">
+                <label asp-for="MaxPrice" class="control-label block">Max Price</label>
+                <input asp-for="MaxPrice" class="form-control w-full" />
+                <span asp-validation-for="MaxPrice" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group mb-4">
+            <label class="aqx-checkbox">
+                <input asp-for="IsActive" type="checkbox" />
+                <span>Active</span>
+            </label>
+            <span asp-validation-for="IsActive" class="text-danger"></span>
+        </div>
+
+        <div class="aqx-actions-bar">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <a asp-action="Index" class="btn btn-secondary">Back to My Alerts</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

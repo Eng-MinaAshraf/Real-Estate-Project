@@ -1,0 +1,105 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="aqx-auth-split">
+    <div class="aqx-auth-shell aqx-auth-shell-wide">
+
+        <!-- Brand / marketing side -->
+        <aside class="aqx-auth-brand">
+            <div class="aqx-auth-brand-top">
+                <img src="~/images/logo.png" alt="AqarX logo" class="aqx-auth-logo" />
+                <div>
+                    <div class="aqx-auth-brand-name">AqarX</div>
+                    <div class="aqx-auth-brand-tag">Premium Real Estate</div>
+                </div>
+            </div>
+
+            <div class="aqx-auth-brand-body">
+                <h2>Join AqarX today.</h2>
+                <p>
+                    Create your free account in seconds. List properties as an owner or
+                    find your perfect home as a tenant — AqarX brings both together.
+                </p>
+            </div>
+
+            <ul class="aqx-auth-features">
+                <li><span class="material-symbols-outlined">apartment</span> List and manage your properties</li>
+                <li><span class="material-symbols-outlined">search</span> Discover thousands of listings</li>
+                <li><span class="material-symbols-outlined">lock</span> Your data stays private and secure</li>
+            </ul>
+        </aside>
+
+        <!-- Form side -->
+        <div class="aqx-auth-panel">
+            <div class="aqx-auth-header">
+                <h1>Create your account</h1>
+                <p class="aqx-subtitle">Join AqarX as an owner or tenant</p>
+            </div>
+
+            <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert" style="margin-bottom: 1rem;"></div>
+
+            <div class="aqx-form-row">
+                <div class="form-group" style="margin-bottom: 1.25rem;">
+                    <label asp-for="Input.Fname" class="control-label">First Name</label>
+                    <input asp-for="Input.Fname" class="form-control" placeholder="First Name" />
+                    <span asp-validation-for="Input.Fname" class="text-danger"></span>
+                </div>
+                <div class="form-group" style="margin-bottom: 1.25rem;">
+                    <label asp-for="Input.Lname" class="control-label">Last Name</label>
+                    <input asp-for="Input.Lname" class="form-control" placeholder="Last Name" />
+                    <span asp-validation-for="Input.Lname" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 1.25rem;">
+                <label asp-for="Input.Email" class="control-label">Email</label>
+                <input asp-for="Input.Email" class="form-control" autocomplete="username" placeholder="name@example.com" />
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 1.25rem;">
+                <label asp-for="Input.Phone" class="control-label">Phone</label>
+                <input asp-for="Input.Phone" class="form-control" placeholder="01xxxxxxxxx" />
+                <span asp-validation-for="Input.Phone" class="text-danger"></span>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 1.25rem;">
+                <label asp-for="Input.Role" class="control-label">I am a</label>
+                <select asp-for="Input.Role" class="form-control">
+                    <option value="">-- Select --</option>
+                    <option value="Owner">Owner</option>
+                    <option value="Tenant">Tenant</option>
+                </select>
+                <span asp-validation-for="Input.Role" class="text-danger"></span>
+            </div>
+
+            <div class="aqx-form-row">
+                <div class="form-group" style="margin-bottom: 1.5rem;">
+                    <label asp-for="Input.Password" class="control-label">Password</label>
+                    <input asp-for="Input.Password" class="form-control" autocomplete="new-password" placeholder="••••••••" />
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+                <div class="form-group" style="margin-bottom: 1.5rem;">
+                    <label asp-for="Input.ConfirmPassword" class="control-label">Confirm</label>
+                    <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" placeholder="••••••••" />
+                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                </div>
+            </div>
+
+            <button id="registerSubmit" type="submit" class="btn-primary aqx-auth-submit">Create Account</button>
+        </form>
+
+            <p class="aqx-auth-footer">
+                Already have an account? <a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl">Login</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

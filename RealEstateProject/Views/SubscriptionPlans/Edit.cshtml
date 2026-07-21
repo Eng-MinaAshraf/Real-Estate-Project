@@ -1,0 +1,69 @@
+@model RealEstateProject.Models.SubscriptionPlan
+
+@{
+    ViewData["Title"] = "Edit Plan";
+}
+
+<div class="aqx-page-header">
+    <div>
+        <h1>Edit Plan</h1>
+        <p class="aqx-subtitle">@Model.PlanName</p>
+    </div>
+</div>
+
+<div class="aqx-detail-card">
+    <form asp-action="Edit">
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-4"></div>
+        <input type="hidden" asp-for="PlanId" />
+
+        <div class="form-group mb-4">
+            <label asp-for="PlanName" class="control-label block"></label>
+            <input asp-for="PlanName" class="form-control w-full" />
+            <span asp-validation-for="PlanName" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-4">
+            <label asp-for="MonthlyPrice" class="control-label block"></label>
+            <input asp-for="MonthlyPrice" class="form-control w-full" placeholder="e.g. 799" />
+            <span asp-validation-for="MonthlyPrice" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-4">
+            <label asp-for="MaxUnits" class="control-label block"></label>
+            <input asp-for="MaxUnits" class="form-control w-full" />
+            <span asp-validation-for="MaxUnits" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-4">
+            <label asp-for="AllowedUnitTypes" class="control-label block"></label>
+            <input asp-for="AllowedUnitTypes" class="form-control w-full" />
+            <span asp-validation-for="AllowedUnitTypes" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-4">
+            <label asp-for="MaxMediaCount" class="control-label block"></label>
+            <input asp-for="MaxMediaCount" class="form-control w-full" />
+            <span asp-validation-for="MaxMediaCount" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-4 flex items-center gap-2">
+            <input asp-for="HasFeaturedSearch" class="w-auto" />
+            <label asp-for="HasFeaturedSearch" class="control-label mb-0"></label>
+            <span asp-validation-for="HasFeaturedSearch" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-4 flex items-center gap-2">
+            <input asp-for="HasMonthlyReports" class="w-auto" />
+            <label asp-for="HasMonthlyReports" class="control-label mb-0"></label>
+            <span asp-validation-for="HasMonthlyReports" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-4 flex items-center gap-2">
+            <input asp-for="HasAccountManager" class="w-auto" />
+            <label asp-for="HasAccountManager" class="control-label mb-0"></label>
+            <span asp-validation-for="HasAccountManager" class="text-danger"></span>
+        </div>
+
+        <div class="aqx-actions-bar">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

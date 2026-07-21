@@ -1,0 +1,57 @@
+@model IEnumerable<RealEstateProject.Models.PropertyApproval>
+
+@{
+    ViewData["Title"] = "Property Approvals";
+}
+
+<div class="aqx-page-header">
+    <div>
+        <h1>Property Approvals</h1>
+        <p class="aqx-subtitle">@Model.Count() approval(s)</p>
+    </div>
+    <a asp-action="Create" class="btn btn-primary">
+        <span class="material-symbols-outlined text-base">add</span> New Approval
+    </a>
+</div>
+
+@if (Model.Any())
+{
+    <div class="overflow-x-auto rounded-2xl border border-white/5">
+        <table class="table w-full">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.Admin)</th>
+                    <th>@Html.DisplayNameFor(model => model.Property)</th>
+                    <th>@Html.DisplayNameFor(model => model.ApprovalDate)</th>
+                    <th>@Html.DisplayNameFor(model => model.ApprovalStatus)</th>
+                    <th class="text-right">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.Admin.AdminId)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Property.PropId)</td>
+                        <td>@Html.DisplayFor(modelItem => item.ApprovalDate)</td>
+                        <td>@Html.DisplayFor(modelItem => item.ApprovalStatus)</td>
+                        <td>
+                            <div class="aqx-actions justify-end">
+                                <a asp-action="Details" asp-route-id="@item.ApprovalId" class="aqx-btn-ghost">View</a>
+                                <a asp-action="Edit" asp-route-id="@item.ApprovalId" class="aqx-btn-ghost">Edit</a>
+                                <a asp-action="Delete" asp-route-id="@item.ApprovalId" class="aqx-btn-ghost aqx-danger">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <div class="aqx-empty">
+        <p>No property approvals found.</p>
+        <a asp-action="Create" class="btn btn-primary">New Approval</a>
+    </div>
+}

@@ -1,0 +1,58 @@
+@model RealEstateProject.Models.User
+
+@{
+    ViewData["Title"] = "New User";
+}
+
+<div class="aqx-page-header">
+    <div>
+        <h1>New User</h1>
+        <p class="aqx-subtitle">Add a user account</p>
+    </div>
+</div>
+
+<div class="aqx-detail-card">
+    <form asp-action="Create">
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-4"></div>
+
+        <div class="form-group mb-4">
+            <label asp-for="Fname" class="control-label block"></label>
+            <input asp-for="Fname" class="form-control w-full" />
+            <span asp-validation-for="Fname" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-4">
+            <label asp-for="Lname" class="control-label block"></label>
+            <input asp-for="Lname" class="form-control w-full" />
+            <span asp-validation-for="Lname" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-4">
+            <label asp-for="Email" class="control-label block"></label>
+            <input asp-for="Email" class="form-control w-full" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-4">
+            <label asp-for="Password" class="control-label block"></label>
+            <input asp-for="Password" class="form-control w-full" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-4">
+            <label asp-for="Phone" class="control-label block"></label>
+            <input asp-for="Phone" class="form-control w-full" />
+            <span asp-validation-for="Phone" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-4">
+            <label asp-for="Role" class="control-label block"></label>
+            <input asp-for="Role" class="form-control w-full" />
+            <span asp-validation-for="Role" class="text-danger"></span>
+        </div>
+
+        <div class="aqx-actions-bar">
+            <button type="submit" class="btn btn-primary">Create</button>
+            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

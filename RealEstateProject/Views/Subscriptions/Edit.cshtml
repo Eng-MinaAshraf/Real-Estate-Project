@@ -1,0 +1,64 @@
+@model RealEstateProject.Models.Subscription
+
+@{
+    ViewData["Title"] = "Edit Subscription";
+}
+
+<div class="aqx-page-header">
+    <div>
+        <h1>Edit Subscription</h1>
+        <p class="aqx-subtitle">Subscription #@Model.SubscriptionId</p>
+    </div>
+</div>
+
+<div class="aqx-detail-card">
+    <form asp-action="Edit">
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-4"></div>
+        <input type="hidden" asp-for="SubscriptionId" />
+
+        <div class="form-group mb-4">
+            <label asp-for="OwnerId" class="control-label block"></label>
+            <select asp-for="OwnerId" class="form-control w-full" asp-items="ViewBag.OwnerId"></select>
+            <span asp-validation-for="OwnerId" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-4">
+            <label asp-for="PlanId" class="control-label block"></label>
+            <select asp-for="PlanId" class="form-control w-full" asp-items="ViewBag.PlanId"></select>
+            <span asp-validation-for="PlanId" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-4">
+            <label asp-for="StartDate" class="control-label block"></label>
+            <input asp-for="StartDate" class="form-control w-full" />
+            <span asp-validation-for="StartDate" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-4">
+            <label asp-for="EndDate" class="control-label block"></label>
+            <input asp-for="EndDate" class="form-control w-full" />
+            <span asp-validation-for="EndDate" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-4">
+            <label asp-for="BillingCycle" class="control-label block"></label>
+            <input asp-for="BillingCycle" class="form-control w-full" />
+            <span asp-validation-for="BillingCycle" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-4">
+            <label asp-for="Discount" class="control-label block"></label>
+            <input asp-for="Discount" class="form-control w-full" />
+            <span asp-validation-for="Discount" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-4">
+            <label asp-for="PaymentStatus" class="control-label block"></label>
+            <input asp-for="PaymentStatus" class="form-control w-full" />
+            <span asp-validation-for="PaymentStatus" class="text-danger"></span>
+        </div>
+
+        <div class="aqx-actions-bar">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

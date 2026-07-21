@@ -1,0 +1,30 @@
+@model RealEstateProject.Models.PropertyApproval
+
+@{
+    ViewData["Title"] = "Approval Details";
+}
+
+<div class="aqx-page-header">
+    <div>
+        <h1>Approval Details</h1>
+        <p class="aqx-subtitle">Approval #@Model.ApprovalId</p>
+    </div>
+</div>
+
+<div class="aqx-detail-card">
+    <dl class="row">
+        <dt>@Html.DisplayNameFor(model => model.Admin)</dt>
+        <dd>@Html.DisplayFor(model => model.Admin.AdminId)</dd>
+        <dt>@Html.DisplayNameFor(model => model.Property)</dt>
+        <dd>@Html.DisplayFor(model => model.Property.PropId)</dd>
+        <dt>@Html.DisplayNameFor(model => model.ApprovalDate)</dt>
+        <dd>@Html.DisplayFor(model => model.ApprovalDate)</dd>
+        <dt>@Html.DisplayNameFor(model => model.ApprovalStatus)</dt>
+        <dd>@Html.DisplayFor(model => model.ApprovalStatus)</dd>
+    </dl>
+
+    <div class="aqx-actions-bar">
+        <a asp-action="Edit" asp-route-id="@Model?.ApprovalId" class="btn btn-primary">Edit</a>
+        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    </div>
+</div>

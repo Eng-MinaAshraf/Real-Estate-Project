@@ -1,0 +1,46 @@
+@model RealEstateProject.Models.Rating
+
+@{
+    ViewData["Title"] = "New Rating";
+}
+
+<div class="aqx-page-header">
+    <div>
+        <h1>New Rating</h1>
+        <p class="aqx-subtitle">Add a rating</p>
+    </div>
+</div>
+
+<div class="aqx-detail-card">
+    <form asp-action="Create">
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-4"></div>
+
+        <div class="form-group mb-4">
+            <label asp-for="GiverId" class="control-label block"></label>
+            <select asp-for="GiverId" class="form-control w-full" asp-items="ViewBag.GiverId"></select>
+        </div>
+        <div class="form-group mb-4">
+            <label asp-for="ReceiverId" class="control-label block"></label>
+            <select asp-for="ReceiverId" class="form-control w-full" asp-items="ViewBag.ReceiverId"></select>
+        </div>
+        <div class="form-group mb-4">
+            <label asp-for="Score" class="control-label block"></label>
+            <input asp-for="Score" class="form-control w-full" />
+            <span asp-validation-for="Score" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-4">
+            <label asp-for="Comment" class="control-label block"></label>
+            <input asp-for="Comment" class="form-control w-full" />
+            <span asp-validation-for="Comment" class="text-danger"></span>
+        </div>
+
+        <div class="aqx-actions-bar">
+            <button type="submit" class="btn btn-primary">Create</button>
+            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

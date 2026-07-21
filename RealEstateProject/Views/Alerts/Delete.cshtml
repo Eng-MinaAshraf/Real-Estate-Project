@@ -1,0 +1,44 @@
+@model RealEstateProject.Models.Alert
+
+@{
+    ViewData["Title"] = "Delete Alert";
+}
+
+<div class="aqx-page-header">
+    <div>
+        <h1>Delete Alert</h1>
+        <p class="aqx-subtitle">This action cannot be undone</p>
+    </div>
+</div>
+
+<div class="aqx-detail-card">
+    <div class="mb-6 p-4 rounded-xl bg-red-500/10 border border-red-500/25 text-red-300 text-sm">
+        Are you sure you want to delete this alert?
+    </div>
+
+    <dl class="row">
+        <dt>Property Type</dt>
+        <dd>@Model.PropertyType</dd>
+        <dt>Purpose</dt>
+        <dd>@Model.Purpose</dd>
+        <dt>Location</dt>
+        <dd>@Model.Location</dd>
+        <dt>Price range</dt>
+        <dd>
+            @if (Model.MinPrice != null)
+            {
+                <span>@Model.MinPrice?.ToString("N0") – @Model.MaxPrice?.ToString("N0")</span>
+            }
+            else
+            {
+                <span>up to @Model.MaxPrice?.ToString("N0")</span>
+            }
+        </dd>
+    </dl>
+
+    <form asp-action="Delete" class="aqx-actions-bar">
+        <input type="hidden" asp-for="AlertId" />
+        <button type="submit" class="btn btn-danger">Delete</button>
+        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    </form>
+</div>

@@ -1,0 +1,105 @@
+@model IEnumerable<RealEstateProject.Models.Property>
+
+@{
+    ViewData["Title"] = "Properties";
+    var canManage = User.Identity != null && User.Identity.IsAuthenticated && !User.IsInRole("Tenant");
+    var isTenant = User.Identity != null && User.Identity.IsAuthenticated && User.IsInRole("Tenant");
+    var hasSearch = ViewBag.HasSearch != null && (bool)ViewBag.HasSearch;
+
+    string? fPropType = ViewBag.FilterPropType as string;
+    string? fPurpose = ViewBag.FilterPurpose as string;
+    string? fLocation = ViewBag.FilterLocation as string;
+    var fMinPrice = ViewBag.FilterMinPrice as decimal?;
+    var fMaxPrice = ViewBag.FilterMaxPrice as decimal?;
+}
+
+<!-- Page Header -->
+<div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+    <div>
+        <h1 class="text-3xl font-black text-white mb-1">Properties</h1>
+        <p class="text-sm text-gray-500">@Model.Count() properties listed</p>
+    </div>
+    @if (canManage)
+    {
+        <a asp-action="Create"
+           class="inline-flex items-center gap-2 bg-white text-black px-5 py-2.5 rounded-xl font-semibold hover:bg-gray-200 transition-colors text-sm self-start sm:self-auto">
+            <span class="material-symbols-outlined text-base">add</span>
+            New Property
+        </a>
+    }
+</div>
+
+<!-- Search / Filter -->
+<form asp-action="Index" method="get" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3 mb-8 p-4 bg-surface-container-low rounded-2xl border border-white/5">
+    <input name="propType" value="@fPropType" placeholder="Type (e.g. Apartment)"
+           class="form-control lg:col-span-1" />
+    <input name="purpose" value="@fPurpose" placeholder="Purpose (Rent/Sale)"
+           class="form-control lg:col-span-1" />
+    <input name="location" value="@fLocation" placeholder="Location"
+           class="form-control lg:col-span-1" />
+    <input name="minPrice" value="@(fMinPrice?.ToString())" type="number" step="any" placeholder="Min price"
+           class="form-control lg:col-span-1" />
+    <input name="maxPrice" value="@(fMaxPrice?.ToString())" type="number" step="any" placeholder="Max price"
+           class="form-control lg:col-span-1" />
+    <div class="flex gap-2 lg:col-span-1">
+        <button type="submit"
+                class="inline-flex items-center justify-center gap-2 bg-white text-black px-4 py-2.5 rounded-xl font-semibold hover:bg-gray-200 transition-colors text-sm flex-1">
+            <span class="material-symbols-outlined text-base">search</span>
+            Search
+        </button>
+        @if (hasSearch)
+        {
+            <a asp-action="Index"
+               class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl border border-white/10 text-gray-300 hover:text-white hover:bg-surface-container-high transition-colors text-sm">
+                Clear
+            </a>
+        }
+    </div>
+</form>
+
+@if (Model.Any())
+{
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        @foreach (var item in Model)
+        {
+            <partial name="_PropertyCard" model="item" />
+        }
+    </div>
+}
+else
+{
+    <div class="text-center py-20 bg-surface-container-low rounded-2xl border border-white/5">
+        <span class="material-symbols-outlined text-5xl text-gray-600 mb-3">domain_disabled</span>
+
+        @if (hasSearch)
+        {
+            <p class="text-gray-400 mb-4">No properties match your search.</p>
+
+            @if (isTenant)
+            {
+                <a asp-controller="Alerts" asp-action="Create"
+                   asp-route-propertyType="@fPropType"
+                   asp-route-purpose="@fPurpose"
+                   asp-route-location="@fLocation"
+                   asp-route-minPrice="@(fMinPrice?.ToString())"
+                   asp-route-maxPrice="@(fMaxPrice?.ToString())"
+                   class="inline-flex items-center gap-2 bg-white text-black px-5 py-2.5 rounded-xl font-semibold hover:bg-gray-200 transition-colors text-sm">
+                    <span class="material-symbols-outlined text-base">notifications_active</span>
+                    Create Property Alert
+                </a>
+            }
+        }
+        else
+        {
+            <p class="text-gray-400 mb-4">No properties listed yet.</p>
+            @if (canManage)
+            {
+                <a asp-action="Create"
+                   class="inline-flex items-center gap-2 bg-white text-black px-5 py-2.5 rounded-xl font-semibold hover:bg-gray-200 transition-colors text-sm">
+                    <span class="material-symbols-outlined text-base">add</span>
+                    New Property
+                </a>
+            }
+        }
+    </div>
+}

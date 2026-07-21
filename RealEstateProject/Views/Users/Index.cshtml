@@ -1,0 +1,61 @@
+@model IEnumerable<RealEstateProject.Models.User>
+
+@{
+    ViewData["Title"] = "Users";
+}
+
+<div class="aqx-page-header">
+    <div>
+        <h1>Users</h1>
+        <p class="aqx-subtitle">@Model.Count() user(s)</p>
+    </div>
+    <a asp-action="Create" class="btn btn-primary">
+        <span class="material-symbols-outlined text-base">add</span> New User
+    </a>
+</div>
+
+@if (Model.Any())
+{
+    <div class="overflow-x-auto rounded-2xl border border-white/5">
+        <table class="table w-full">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.Fname)</th>
+                    <th>@Html.DisplayNameFor(model => model.Lname)</th>
+                    <th>@Html.DisplayNameFor(model => model.Email)</th>
+                    <th>@Html.DisplayNameFor(model => model.Password)</th>
+                    <th>@Html.DisplayNameFor(model => model.Phone)</th>
+                    <th>@Html.DisplayNameFor(model => model.Role)</th>
+                    <th class="text-right">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.Fname)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Lname)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Password)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Phone)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Role)</td>
+                        <td>
+                            <div class="aqx-actions justify-end">
+                                <a asp-action="Details" asp-route-id="@item.UserId" class="aqx-btn-ghost">View</a>
+                                <a asp-action="Edit" asp-route-id="@item.UserId" class="aqx-btn-ghost">Edit</a>
+                                <a asp-action="Delete" asp-route-id="@item.UserId" class="aqx-btn-ghost aqx-danger">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <div class="aqx-empty">
+        <p>No users found.</p>
+        <a asp-action="Create" class="btn btn-primary">New User</a>
+    </div>
+}

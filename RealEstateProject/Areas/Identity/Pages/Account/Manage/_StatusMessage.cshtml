@@ -1,0 +1,10 @@
+@model string
+
+@if (!string.IsNullOrEmpty(Model))
+{
+    var isError = Model.StartsWith("Error", StringComparison.OrdinalIgnoreCase);
+    <div class="aqx-status-message @(isError ? "aqx-status-error" : "aqx-status-success")" role="alert">
+        <span class="material-symbols-outlined">@(isError ? "error" : "check_circle")</span>
+        <span>@Model</span>
+    </div>
+}

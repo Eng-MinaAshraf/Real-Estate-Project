@@ -1,0 +1,35 @@
+@model RealEstateProject.Models.Tenant
+
+@{
+    ViewData["Title"] = "Delete Tenant";
+}
+
+<div class="aqx-page-header">
+    <div>
+        <h1>Delete Tenant</h1>
+        <p class="aqx-subtitle">This action cannot be undone</p>
+    </div>
+</div>
+
+<div class="aqx-detail-card">
+    <div class="mb-6 p-4 rounded-xl bg-red-500/10 border border-red-500/25 text-red-300 text-sm">
+        Are you sure you want to delete this tenant?
+    </div>
+
+    <dl class="row">
+        <dt>@Html.DisplayNameFor(model => model.SmokingStatus)</dt>
+        <dd>@Html.DisplayFor(model => model.SmokingStatus)</dd>
+        <dt>@Html.DisplayNameFor(model => model.Personality)</dt>
+        <dd>@Html.DisplayFor(model => model.Personality)</dd>
+        <dt>@Html.DisplayNameFor(model => model.Occupation)</dt>
+        <dd>@Html.DisplayFor(model => model.Occupation)</dd>
+        <dt>@Html.DisplayNameFor(model => model.User)</dt>
+        <dd>@Html.DisplayFor(model => model.User.UserId)</dd>
+    </dl>
+
+    <form asp-action="Delete" class="aqx-actions-bar">
+        <input type="hidden" asp-for="TenantId" />
+        <button type="submit" class="btn btn-danger">Delete</button>
+        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    </form>
+</div>

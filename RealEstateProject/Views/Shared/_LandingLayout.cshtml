@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - AqarX</title>
+
+    <!-- Theme bootstrap: يطبّق الثيم قبل الرسم عشان مايحصلش وميض (FOUC) -->
+    <script>
+        (function () {
+            try {
+                var stored = localStorage.getItem('aqx-theme');
+                var theme = stored
+                    || (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+                var root = document.documentElement;
+                root.classList.add(theme);
+                root.setAttribute('data-theme', theme);
+                root.style.colorScheme = theme;
+            } catch (e) {
+                document.documentElement.classList.add('dark');
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        })();
+    </script>
+
+    <!-- Tailwind CSS & Fonts -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface": "var(--tw-surface)",
+                        "primary": "var(--tw-primary)",
+                        "surface-container-high": "var(--tw-surface-high)",
+                        "surface-container-highest": "var(--tw-surface-highest)",
+                        "surface-container-low": "var(--tw-surface-low)",
+                    },
+                    fontFamily: {
+                        "body-md": ["Inter", "sans-serif"],
+                        "headline-sm": ["Hanken Grotesk", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: var(--aqx-bg);
+            color: var(--aqx-text);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Hanken Grotesk', sans-serif;
+        }
+
+        a {
+            text-decoration: none !important;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Top bar -->
+    <header class="sticky top-0 z-50 w-full backdrop-blur-md border-b border-white/5" style="background-color: var(--aqx-header-bg);">
+        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+            <a asp-controller="Home" asp-action="Landing" class="flex items-center gap-2">
+                <img src="~/images/logo.png" alt="AqarX" class="w-8 h-8 rounded-lg object-cover" />
+                <span class="text-xl font-black text-white">AqarX</span>
+            </a>
+
+            <nav class="hidden md:flex items-center gap-1">
+                <a href="#features" class="text-gray-400 hover:text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">Features</a>
+                <a href="#how" class="text-gray-400 hover:text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">How it works</a>
+                <a asp-controller="Properties" asp-action="Index" class="text-gray-400 hover:text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">Browse</a>
+                <a asp-controller="SubscriptionPlans" asp-action="Index" class="text-gray-400 hover:text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">Pricing</a>
+            </nav>
+
+            <div class="flex items-center gap-2">
+                <button type="button" class="aqx-theme-toggle" data-theme-toggle aria-label="Toggle light and dark theme" title="Toggle theme">
+                    <span class="material-symbols-outlined aqx-theme-icon-dark">dark_mode</span>
+                    <span class="material-symbols-outlined aqx-theme-icon-light">light_mode</span>
+                </button>
+                @if (User.Identity != null && User.Identity.IsAuthenticated)
+                {
+                    <a asp-controller="Dashboard" asp-action="Index" class="bg-white text-black px-5 py-2 rounded-xl font-semibold hover:bg-gray-200 transition-colors text-sm">Dashboard</a>
+                }
+                else
+                {
+                    <a asp-area="Identity" asp-page="/Account/Login" class="text-gray-300 hover:text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">Log in</a>
+                    <a asp-area="Identity" asp-page="/Account/Register" class="bg-white text-black px-5 py-2 rounded-xl font-semibold hover:bg-gray-200 transition-colors text-sm">Get started</a>
+                }
+            </div>
+        </div>
+    </header>
+
+    <main>
+        @RenderBody()
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/5 mt-24" style="background-color: var(--aqx-surface);">
+        <div class="max-w-7xl mx-auto px-6 py-10 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-2">
+                <img src="~/images/logo.png" alt="AqarX" class="w-7 h-7 rounded-lg object-cover" />
+                <span class="text-sm font-bold text-gray-400">&copy; 2026 AqarX — Premium Real Estate</span>
+            </div>
+            <div class="flex gap-5 text-sm text-gray-400">
+                <a asp-controller="Properties" asp-action="Index" class="hover:text-white transition-colors">Properties</a>
+                <a asp-controller="SubscriptionPlans" asp-action="Index" class="hover:text-white transition-colors">Pricing</a>
+                <a asp-controller="Home" asp-action="Privacy" class="hover:text-white transition-colors">Privacy</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

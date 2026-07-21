@@ -1,0 +1,28 @@
+@model RealEstateProject.Models.Admin
+
+@{
+    ViewData["Title"] = "Edit Admin";
+}
+
+<div class="aqx-page-header">
+    <div>
+        <h1>Edit Admin</h1>
+        <p class="aqx-subtitle">Admin #@Model.AdminId</p>
+    </div>
+</div>
+
+<div class="aqx-detail-card">
+    <form asp-action="Edit">
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-4"></div>
+        <input type="hidden" asp-for="AdminId" />
+
+        <div class="aqx-actions-bar">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

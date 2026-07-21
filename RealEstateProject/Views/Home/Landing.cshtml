@@ -1,0 +1,301 @@
+@{
+    ViewData["Title"] = "Welcome";
+    Layout = "_LandingLayout";
+}
+
+<style>
+    /* ===== ألوان مربوطة بالثيم (تشتغل صح في الدارك واللايت) ===== */
+    .lp-btn-primary {
+        background-color: var(--aqx-accent);
+        color: var(--aqx-bg);
+        border: 1px solid var(--aqx-accent);
+        transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+
+        .lp-btn-primary:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+    .lp-btn-secondary {
+        background-color: var(--aqx-surface-high);
+        color: var(--aqx-text);
+        border: 1px solid var(--aqx-border);
+        transition: background-color 0.2s ease, transform 0.2s ease;
+    }
+
+        .lp-btn-secondary:hover {
+            background-color: var(--aqx-surface-highest);
+            transform: translateY(-1px);
+        }
+
+    .lp-badge {
+        background-color: var(--aqx-surface-high);
+        color: var(--aqx-text-muted);
+        border: 1px solid var(--aqx-border);
+    }
+
+    .lp-icon-box {
+        background-color: var(--aqx-surface-high);
+        color: var(--aqx-text);
+    }
+
+    /* الأرقام الكبيرة 01/02/03 — خافتة بشكل متسق مع الثيم */
+    .lp-step-num {
+        color: var(--aqx-text);
+        opacity: 0.12;
+    }
+
+    /* كروت الإحصائيات — مربعات واضحة مش عايمة */
+    .lp-stat-card {
+        background-color: var(--aqx-surface-high);
+        border: 1px solid var(--aqx-border);
+        border-radius: 1rem;
+        padding: 1.5rem 1rem;
+        text-align: center;
+        transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+        .lp-stat-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--aqx-accent);
+        }
+
+    .lp-stat-num {
+        font-size: 1.875rem;
+        line-height: 2.25rem;
+        font-weight: 900;
+        color: var(--aqx-accent);
+        margin-bottom: 0.25rem;
+    }
+
+    .lp-stat-label {
+        font-size: 0.75rem;
+        color: var(--aqx-text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    /* ظهور تدريجي مع الـ scroll */
+    [data-reveal] {
+        opacity: 0;
+        transform: translateY(28px);
+        transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        will-change: opacity, transform;
+    }
+
+        [data-reveal].is-visible {
+            opacity: 1;
+            transform: none;
+        }
+
+    @@media (prefers-reduced-motion: reduce) {
+        [data-reveal] {
+            opacity: 1 !important;
+            transform: none !important;
+            transition: none !important;
+        }
+    }
+</style>
+
+<!-- ===================== Hero ===================== -->
+<section class="relative overflow-hidden">
+    <!-- Decorative gradient glow -->
+    <div class="absolute inset-0 -z-10 opacity-60"
+         style="background: radial-gradient(60% 60% at 50% 0%, var(--aqx-accent-glow), transparent 70%);"></div>
+
+    <div class="max-w-7xl mx-auto px-6 pt-20 pb-16 md:pt-28 md:pb-24 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <!-- Text side -->
+        <div class="text-center lg:text-left">
+            <span data-reveal class="lp-badge inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold mb-6">
+                <span class="material-symbols-outlined text-sm">verified</span>
+                Egypt's premium property platform
+            </span>
+
+            <h1 data-reveal class="text-4xl md:text-6xl font-black text-white leading-[1.1] mb-6">
+                Find, list, and manage properties — all in one place
+            </h1>
+            <p data-reveal class="text-lg text-gray-400 max-w-xl mx-auto lg:mx-0 mb-10">
+                AqarX connects owners and tenants through verified listings, smart search alerts,
+                and a powerful dashboard. Whether you're renting, buying, or managing a portfolio — we've got you covered.
+            </p>
+
+            <div data-reveal class="flex flex-col sm:flex-row items-center lg:justify-start justify-center gap-3">
+                <a asp-controller="Properties" asp-action="Index"
+                   class="lp-btn-primary inline-flex items-center gap-2 px-7 py-3.5 rounded-xl font-semibold">
+                    <span class="material-symbols-outlined text-base">search</span>
+                    Browse properties
+                </a>
+                <a asp-area="Identity" asp-page="/Account/Register"
+                   class="lp-btn-secondary inline-flex items-center gap-2 px-7 py-3.5 rounded-xl font-semibold">
+                    Create free account
+                    <span class="material-symbols-outlined text-base">arrow_forward</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Image side -->
+        <div data-reveal style="--reveal-delay: 150ms" class="relative">
+            <div class="absolute -inset-4 -z-10 opacity-50 rounded-[2rem] blur-2xl"
+                 style="background: radial-gradient(60% 60% at 60% 40%, var(--aqx-accent-glow), transparent 70%);"></div>
+            <img src="~/images/hero-villa.jpg" alt="Modern luxury villa"
+                 class="w-full h-[320px] md:h-[440px] object-cover rounded-3xl border border-white/10 shadow-2xl" />
+        </div>
+    </div>
+</section>
+
+<!-- ===================== Stats ===================== -->
+<section class="max-w-5xl mx-auto px-6 pb-16">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div data-reveal class="lp-stat-card">
+            <div class="lp-stat-num">1,200+</div>
+            <div class="lp-stat-label">Listings</div>
+        </div>
+        <div data-reveal style="--reveal-delay: 100ms" class="lp-stat-card">
+            <div class="lp-stat-num">850+</div>
+            <div class="lp-stat-label">Happy clients</div>
+        </div>
+        <div data-reveal style="--reveal-delay: 200ms" class="lp-stat-card">
+            <div class="lp-stat-num">15</div>
+            <div class="lp-stat-label">Cities</div>
+        </div>
+        <div data-reveal style="--reveal-delay: 300ms" class="lp-stat-card">
+            <div class="lp-stat-num">4.8★</div>
+            <div class="lp-stat-label">Avg. rating</div>
+        </div>
+    </div>
+</section>
+
+<!-- ===================== Features ===================== -->
+<section id="features" class="max-w-7xl mx-auto px-6 py-16">
+    <div class="text-center mb-14">
+        <h2 class="text-3xl md:text-4xl font-black text-white mb-3" data-reveal>Everything you need</h2>
+        <p class="text-gray-400 max-w-2xl mx-auto">A complete toolkit for owners and tenants, built around trust and simplicity.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="glass-panel rounded-2xl p-7 hover:-translate-y-1 transition-transform duration-300" data-reveal>
+            <div class="lp-icon-box w-12 h-12 rounded-xl flex items-center justify-center mb-5">
+                <span class="material-symbols-outlined">domain</span>
+            </div>
+            <h3 class="text-lg font-bold text-white mb-2">Verified listings</h3>
+            <p class="text-sm text-gray-400">Every property is reviewed and approved before it goes live, so you only see the real deal.</p>
+        </div>
+
+        <div class="glass-panel rounded-2xl p-7 hover:-translate-y-1 transition-transform duration-300" data-reveal style="--reveal-delay: 80ms">
+            <div class="lp-icon-box w-12 h-12 rounded-xl flex items-center justify-center mb-5">
+                <span class="material-symbols-outlined">notifications_active</span>
+            </div>
+            <h3 class="text-lg font-bold text-white mb-2">Smart search alerts</h3>
+            <p class="text-sm text-gray-400">Save your search and get notified the moment a matching property is published.</p>
+        </div>
+
+        <div class="glass-panel rounded-2xl p-7 hover:-translate-y-1 transition-transform duration-300" data-reveal style="--reveal-delay: 160ms">
+            <div class="lp-icon-box w-12 h-12 rounded-xl flex items-center justify-center mb-5">
+                <span class="material-symbols-outlined">dashboard</span>
+            </div>
+            <h3 class="text-lg font-bold text-white mb-2">Powerful dashboard</h3>
+            <p class="text-sm text-gray-400">Manage your properties, subscriptions, and ratings from one clean control center.</p>
+        </div>
+
+        <div class="glass-panel rounded-2xl p-7 hover:-translate-y-1 transition-transform duration-300" data-reveal style="--reveal-delay: 0ms">
+            <div class="lp-icon-box w-12 h-12 rounded-xl flex items-center justify-center mb-5">
+                <span class="material-symbols-outlined">campaign</span>
+            </div>
+            <h3 class="text-lg font-bold text-white mb-2">Promotions</h3>
+            <p class="text-sm text-gray-400">Boost your listings with featured placement to reach more buyers and tenants faster.</p>
+        </div>
+
+        <div class="glass-panel rounded-2xl p-7 hover:-translate-y-1 transition-transform duration-300" data-reveal style="--reveal-delay: 80ms">
+            <div class="lp-icon-box w-12 h-12 rounded-xl flex items-center justify-center mb-5">
+                <span class="material-symbols-outlined">star</span>
+            </div>
+            <h3 class="text-lg font-bold text-white mb-2">Ratings & reviews</h3>
+            <p class="text-sm text-gray-400">Build trust with a transparent rating system for owners and tenants alike.</p>
+        </div>
+
+        <div class="glass-panel rounded-2xl p-7 hover:-translate-y-1 transition-transform duration-300" data-reveal style="--reveal-delay: 160ms">
+            <div class="lp-icon-box w-12 h-12 rounded-xl flex items-center justify-center mb-5">
+                <span class="material-symbols-outlined">lock</span>
+            </div>
+            <h3 class="text-lg font-bold text-white mb-2">Secure & private</h3>
+            <p class="text-sm text-gray-400">Your data is protected, and you stay in full control of your account at all times.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ===================== How it works ===================== -->
+<section id="how" class="max-w-7xl mx-auto px-6 py-16">
+    <div class="text-center mb-14" data-reveal>
+        <h2 class="text-3xl md:text-4xl font-black text-white mb-3">How it works</h2>
+        <p class="text-gray-400 max-w-2xl mx-auto">Get started in three simple steps.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="relative glass-panel rounded-2xl p-7" data-reveal style="--reveal-delay: 0ms">
+            <div class="lp-step-num text-5xl font-black mb-3">01</div>
+            <h3 class="text-lg font-bold text-white mb-2">Create your account</h3>
+            <p class="text-sm text-gray-400">Sign up free as an owner or a tenant in just a few seconds.</p>
+        </div>
+        <div class="relative glass-panel rounded-2xl p-7" data-reveal style="--reveal-delay: 100ms">
+            <div class="lp-step-num text-5xl font-black mb-3">02</div>
+            <h3 class="text-lg font-bold text-white mb-2">List or search</h3>
+            <p class="text-sm text-gray-400">Owners list their properties; tenants browse and set up smart alerts.</p>
+        </div>
+        <div class="relative glass-panel rounded-2xl p-7" data-reveal style="--reveal-delay: 200ms">
+            <div class="lp-step-num text-5xl font-black mb-3">03</div>
+            <h3 class="text-lg font-bold text-white mb-2">Connect & close</h3>
+            <p class="text-sm text-gray-400">Reach the right people and finalize your deal with confidence.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ===================== CTA ===================== -->
+<section class="max-w-7xl mx-auto px-6 py-16">
+    <div class="glass-panel rounded-3xl p-10 md:p-16 text-center relative overflow-hidden" data-reveal>
+        <div class="absolute inset-0 -z-10 opacity-60"
+             style="background: radial-gradient(50% 80% at 50% 100%, var(--aqx-accent-glow), transparent 70%);"></div>
+        <h2 class="text-3xl md:text-4xl font-black text-white mb-4">Ready to get started?</h2>
+        <p class="text-gray-400 max-w-xl mx-auto mb-8">Join AqarX today and discover a smarter way to manage real estate.</p>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+            <a asp-area="Identity" asp-page="/Account/Register"
+               class="lp-btn-primary inline-flex items-center gap-2 px-7 py-3.5 rounded-xl font-semibold">
+                Create free account
+            </a>
+            <a asp-controller="Properties" asp-action="Index"
+               class="lp-btn-secondary inline-flex items-center gap-2 px-7 py-3.5 rounded-xl font-semibold">
+                Browse properties
+            </a>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        (function () {
+            var items = document.querySelectorAll('[data-reveal]');
+            if (!items.length) return;
+
+            // لو المتصفح مش داعم IntersectionObserver أو المستخدم مقفّل الأنيميشن، نظهّر كل حاجة على طول
+            var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            if (reduceMotion || !('IntersectionObserver' in window)) {
+                items.forEach(function (el) { el.classList.add('is-visible'); });
+                return;
+            }
+
+            var observer = new IntersectionObserver(function (entries, obs) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting) {
+                        var el = entry.target;
+                        var delay = el.style.getPropertyValue('--reveal-delay') || '0ms';
+                        el.style.transitionDelay = delay;
+                        el.classList.add('is-visible');
+                        obs.unobserve(el); // مرة واحدة بس
+                    }
+                });
+            }, { threshold: 0.15, rootMargin: '0px 0px -10% 0px' });
+
+            items.forEach(function (el) { observer.observe(el); });
+        })();
+    </script>
+}
