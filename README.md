@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🏙️ AqarX 
+# AqarX 
 ## The Complete Smart Real Estate Ecosystem
 
 **From an educational graduation ject ➜ to a market-ready commercial duct**
