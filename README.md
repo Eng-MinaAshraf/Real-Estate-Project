@@ -1,7 +1,7 @@
 <div align="center">
 
-# AqarX
-![AqarX Logo](Logo.png)
+# ![Logo](https://raw.githubusercontent.com/<USERNAME>/<REPOSITORY>/<BRANCH>/Logo.png)
+ AqarX
 ## The Complete Smart Real Estate Ecosystem
 
 **From an educational graduation ject ➜ to a market-ready commercial duct**
